@@ -1,0 +1,22 @@
+.link-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    color: white;
+  }
+
+.closeBtn {
+	background-color: transparent;
+	border: none;
+	width: 5%;
+	float: right;
+	color: black;
+}
+
+.logo-class{
+	height: 50%;
+  	width: 50%;
+}
