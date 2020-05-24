@@ -1,6 +1,11 @@
 import React, { Component } from "react";
+import { injectIntl } from "react-intl";
+import logo from "./../../img/logo.png";
+import titleImg from "./../../img/banner/edu_ilastration.png";
+import Signin from "../../Components/Login/Signin.jsx";
+import Signup from "../../Components/Login/Signup.jsx";
+import engLocale from "../../Locale/en.json";
 import "./../../css/bootstrap.min.css";
-import "./../../css/owl.carousel.min.css";
 import "./../../css/magnific-popup.css";
 import "./../../css/font-awesome.min.css";
 import "./../../css/themify-icons.css";
@@ -10,60 +15,96 @@ import "./../../css/gijgo.css";
 import "./../../css/animate.css";
 import "./../../css/slicknav.css";
 import "./../../css/style.css";
-import logo from "./../../img/logo.png";
-import titleImg from "./../../img/banner/edu_ilastration.png";
-import Signin from "../../Components/Login/Signin.jsx";
-import Signup from "../../Components/Login/Signup.jsx";
-import engLocale from "../../Locale/en.json";
+import "./../../css/mycss.css";
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loggedInUser: {},
       showLogin: false,
-      showRegister: false
+      showRegister: false,
     };
   }
 
+  changeLanguage = () => {
+    switch (window.lang) {
+      case "hi":
+        window.localStorage.setItem("language", "en-US");
+        break;
+      default:
+        window.localStorage.setItem("language", "hi-IN");
+    }
+    window.location.reload();
+  };
+
+  getLinkName = () => {
+    switch (window.lang) {
+      case "hi":
+        return "English";
+      default:
+        return "Hindi";
+    }
+  };
+
   onLoginClick = (flag) => {
-    console.log("Login: " + flag);
     this.setState({
       showLogin: flag,
     });
   };
 
-  onChange = (newValue) => {  
+  onChange = (newValue) => {
     this.setState(newValue);
-  }
+  };
+
+  onLoginChange = (newValue) => {
+    console.log("state from SignIn: " + JSON.stringify(newValue));
+    
+    this.state.loggedInUser = newValue;
+    /*this.setState({
+     loggedInUser : newValue
+    });*/
+    console.log("new State: " + JSON.stringify(this.state));
+  };
 
   renderLogin = () => {
     return (
       <section>
         <div className="mfp-bg mfp-ready"></div>
-        <Signin onSignInChange={this.onChange}/>
+        <Signin onSignInChange={this.onChange} onLoginIn={this.onLoginChange} />
       </section>
     );
   };
 
   renderRegister = () => {
-    return(
+    return (
       <section>
         <div className="mfp-bg mfp-ready"></div>
-        <Signup onSignUpChange={this.onChange}/>
+        <Signup onSignUpChange={this.onChange} />
       </section>
-    )
-  }
+    );
+  };
 
   render() {
     return (
       <section>
         <header>
           <div className="header-area ">
+            <div className="live_chat_btn">
+              <span>{this.state.loggedInUser.name}</span>
+              <button
+                id="lang-btn"
+                className="link-button"
+                onClick={() => this.changeLanguage()}
+              >
+                {this.getLinkName()}
+              </button>
+            </div>
             <div id="sticky-header" className="main-header-area">
               <div className="container-fluid p-0">
                 <div className="row align-items-center no-gutters">
                   <div className="col-xl-2 col-lg-2">
-                    <div className="logo-img">
+                    <div className="my-logo-img">
                       <a href="index.html">
                         <img src={logo} alt="" />
                       </a>
@@ -75,7 +116,7 @@ class Header extends Component {
                         <ul id="navigation">
                           <li>
                             <a className="active" href="index.html">
-                              {engLocale.home}
+                              {this.props.intl.formatMessage({ id: "home" })}
                             </a>
                           </li>
                           <li>
@@ -83,11 +124,14 @@ class Header extends Component {
                           </li>
                           <li>
                             <a href="Courses.html">
-                            {engLocale.pages} <i className="ti-angle-down"></i>
+                              {engLocale.pages}{" "}
+                              <i className="ti-angle-down"></i>
                             </a>
                             <ul className="submenu">
                               <li>
-                                <a href="course_details.html">{engLocale.courseDetails}</a>
+                                <a href="course_details.html">
+                                  {engLocale.courseDetails}
+                                </a>
                               </li>
                               <li>
                                 <a href="elements.html">{engLocale.elements}</a>
@@ -99,14 +143,16 @@ class Header extends Component {
                           </li>
                           <li>
                             <a href="about.html">
-                            {engLocale.blog} <i className="ti-angle-down"></i>
+                              {engLocale.blog} <i className="ti-angle-down"></i>
                             </a>
                             <ul className="submenu">
                               <li>
                                 <a href="blog.html">{engLocale.blog}</a>
                               </li>
                               <li>
-                                <a href="single-blog.html">{engLocale.singleblog}</a>
+                                <a href="single-blog.html">
+                                  {engLocale.singleblog}
+                                </a>
                               </li>
                             </ul>
                           </li>
@@ -127,7 +173,7 @@ class Header extends Component {
                         <span>log in</span>
                       </button>
                       <div className="live_chat_btn">
-                        <button className="boxed_btn_orange" href="#test-form">
+                        <button className="boxed_btn_orange" href="#">
                           <i className="fa fa-phone"></i>
                           <span>+10 378 467 3672</span>
                         </button>
@@ -175,4 +221,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default injectIntl(Header);

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import LoginDetails from "./../../Configs/LoginConfig";
+import logo from "./../../img/form-logo.png";
 import "./../../css/bootstrap.min.css";
 import "./../../css/magnific-popup.css";
 import "./../../css/font-awesome.min.css";
@@ -9,18 +11,21 @@ import "./../../css/gijgo.css";
 import "./../../css/animate.css";
 import "./../../css/slicknav.css";
 import "./../../css/style.css";
-import "./../../css/mycss.css";
-import logo from "./../../img/form-logo.png";
 
 class SignIn extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
+      loggedInUser : props.loggedInUser,
+      username: "",
       password: "",
       showRegister: false,
     };
+  }
+
+  componentDidMount(){
+    this.props.onChange(this.state)
   }
 
   onUpdateField = (event) => {
@@ -42,16 +47,32 @@ class SignIn extends Component {
 
   closePopup = () => {
     this.props.onSignInChange({
-      showLogin : false
+      showLogin: false,
     });
   };
 
   onSignUpClick = (flag) => {
     this.props.onSignInChange({
-      showLogin : false,
-      showRegister : true
+      showLogin: false,
+      showRegister: true,
     });
-  }
+  };
+
+  loginUser = () => {
+    LoginDetails.users.forEach((user) => {
+      if (
+        user.username === this.state.username &&
+        user.password === this.state.password
+      ) {
+        this.setState({
+          loggedInUser : user
+        });
+        this.props.onLoginChange({
+          loggedInUser: this.state.loggedInUser,
+        });
+      }
+    });
+  };
 
   render() {
     return (
@@ -59,7 +80,6 @@ class SignIn extends Component {
         className="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-ready"
         tabIndex="-1"
         inlinestyle="overflow: hidden auto;"
-        onClick={()=>this.closePopup(true)}
       >
         <div className="mfp-container mfp-inline-holder">
           <div className="mfp-content">
@@ -72,13 +92,29 @@ class SignIn extends Component {
                   <h3>Sign in</h3>
                   <div className="row">
                     <div className="col-xl-12 col-md-12">
-                      <input type="email" placeholder="Enter email" />
+                      <input
+                        type="text"
+                        name="username"
+                        placeholder="Enter Username"
+                        onChange={this.onUpdateField}
+                        onBlur={this.onUpdateField}
+                      />
                     </div>
                     <div className="col-xl-12 col-md-12">
-                      <input type="password" placeholder="Password" />
+                      <input
+                        type="text"
+                        name="password"
+                        placeholder="Password"
+                        onChange={this.onUpdateField}
+                        onBlur={this.onUpdateField}
+                      />
                     </div>
                     <div className="col-xl-12">
-                      <button type="submit" className="boxed_btn_orange">
+                      <button
+                        type="button"
+                        className="boxed_btn_orange"
+                        onClick={() => this.loginUser()}
+                      >
                         Sign in
                       </button>
                     </div>

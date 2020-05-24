@@ -1,14 +1,80 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
-import Main from './Containers/Main/index.js';
+
+/* loading translation & internationalization */
+import antdEn from 'antd/lib/locale-provider/en_US';
+import antdHi from 'antd/lib/locale-provider/hi_IN';
+import appLocaleDataEn from 'react-intl/locale-data/en';
+import appLocaleDataHi from 'react-intl/locale-data/hi';
+import hiMessages from './Locale/hi.json';//custom text
+import enMessages from './Locale/en.json';//custom text
+import { IntlProvider, addLocaleData } from 'react-intl';
+import { ConfigProvider } from 'antd';
+
+import Main from './Containers/Main';
+
+
+///first check saved language in Browser local storage, if not then check for passed parameter lang in url
+//we can pass fr or en
+const url = window.location.href; // or window.location.href for current url
+const capturedUrlLang = /lang=([^&]+)/.exec(url); // Value is in [1]
+const capturedStorageLang = window.localStorage.language;
+
+const getCapturedLocale = (captured) => {
+    let locale;
+    switch (captured) {
+        case 'hi':
+            locale = 'hi_IN';
+            break;
+        default:
+            locale = 'en-US';
+    }
+    return locale;
+};
+
+//stored browser data if priority then valid lang in URL, default is English
+const locale =  capturedStorageLang ? capturedStorageLang : (capturedUrlLang ? getCapturedLocale(capturedUrlLang[1]) : 'en-US' );
+
+//store it in browser storage for when the user comes back
+window.localStorage.setItem("language", locale);
+
+//set global var in case we need it.
+window.lang = locale.substring(0, 2);// hi or en
+
+//set translated Ant Design, React and Custom text
+let appLocale;
+switch(locale) {
+    case 'hi-IN':
+        appLocale = {
+            messages: {
+                ...hiMessages,
+            },
+            antd: antdHi,
+            locale: 'hi-IN',
+            data: appLocaleDataHi
+        };
+        break;
+    default:
+        appLocale = {
+            messages: {
+                ...enMessages,
+            },
+            antd: antdEn,
+            locale: 'en-US',
+            data: appLocaleDataEn
+        };
+};
+
+addLocaleData(appLocale.data);
 
 ReactDOM.render(
-  <Main/>,
+  <ConfigProvider locale={appLocale.antd}>
+    <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
+      <Main />
+    </IntlProvider>
+  </ConfigProvider>,
   document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+
