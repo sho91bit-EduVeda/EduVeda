@@ -24,10 +24,6 @@ class SignIn extends Component {
     };
   }
 
-  componentDidMount(){
-    this.props.onChange(this.state)
-  }
-
   onUpdateField = (event) => {
     const target = event.target;
     const value = target.value;
@@ -67,7 +63,7 @@ class SignIn extends Component {
         this.setState({
           loggedInUser : user
         });
-        this.props.onLoginChange({
+        this.props.onLoginIn({
           loggedInUser: this.state.loggedInUser,
         });
       }
