@@ -17,10 +17,9 @@ class SignIn extends Component {
     super(props);
 
     this.state = {
-      loggedInUser : props.loggedInUser,
       username: "",
       password: "",
-      showRegister: false,
+      showRegister: false
     };
   }
 
@@ -55,16 +54,14 @@ class SignIn extends Component {
   };
 
   loginUser = () => {
-    LoginDetails.users.forEach((user) => {
+    LoginDetails.users.forEach(user => {
       if (
         user.username === this.state.username &&
         user.password === this.state.password
       ) {
-        this.setState({
-          loggedInUser : user
-        });
-        this.props.onLoginIn({
-          loggedInUser: this.state.loggedInUser,
+        this.props.onSignInChange({
+          user: user,
+          showLogin:false
         });
       }
     });
