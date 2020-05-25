@@ -21,10 +21,14 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedInUser: {},
+      user: {},
       showLogin: false,
       showRegister: false,
     };
+  }
+
+  componentDidUpdate() {
+    console.log("State after update: " + JSON.stringify(this.state));
   }
 
   changeLanguage = () => {
@@ -57,21 +61,11 @@ class Header extends Component {
     this.setState(newValue);
   };
 
-  onLoginChange = (newValue) => {
-    console.log("state from SignIn: " + JSON.stringify(newValue));
-    
-    this.state.loggedInUser = newValue;
-    /*this.setState({
-     loggedInUser : newValue
-    });*/
-    console.log("new State: " + JSON.stringify(this.state));
-  };
-
   renderLogin = () => {
     return (
       <section>
         <div className="mfp-bg mfp-ready"></div>
-        <Signin onSignInChange={this.onChange} onLoginIn={this.onLoginChange} />
+        <Signin onSignInChange={this.onChange} />
       </section>
     );
   };
@@ -91,7 +85,6 @@ class Header extends Component {
         <header>
           <div className="header-area ">
             <div className="live_chat_btn">
-              <span>{this.state.loggedInUser.name}</span>
               <button
                 id="lang-btn"
                 className="link-button"
@@ -99,6 +92,12 @@ class Header extends Component {
               >
                 {this.getLinkName()}
               </button>
+              <span id="lang-btn">
+                Hi{" "}
+                {this.state.user.name !== undefined
+                  ? this.state.user.name
+                  : "Guest"}
+              </span>
             </div>
             <div id="sticky-header" className="main-header-area">
               <div className="container-fluid p-0">
