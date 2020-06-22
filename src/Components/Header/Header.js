@@ -27,10 +27,10 @@ class Header extends Component {
             <div id="sticky-header" className="main-header-area">
                 <div className="container-fluid p-0">
                     <div className="row align-items-center no-gutters">
-                        <div className="col-xl-2 col-lg-2">
+                        <div className="col-xl-1 col-lg-1">
                             <Logo altVal="eduvedaLogo" logoPath={eduvedaLogo} id="logo text-center"/>
                         </div>
-                        <div className="col-xl-6 col-lg-6">
+                        <div className="col-xl-8 col-lg-8">
                             <div className="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
@@ -42,12 +42,15 @@ class Header extends Component {
                                         <li><Link to="Courses.html">
                                         {this.props.intl.formatMessage({ id: "Courses" })}
                                         </Link></li>
-                                        {/*<li><Link to="#">pages <i className="ti-angle-down"></i></Link>
+                                        <li><Link to="#">pages <i className="ti-angle-down"></i></Link>
                                             <ul className="submenu">
                                                 <li><Link to="course_details.html">course details</Link></li>
                                                 <li><Link to="elements.html">elements</Link></li>
                                             </ul>
-                                        </li>*/}
+                                        </li>
+                                        <li><Link to="Courses.html">
+                                        Sarkari Jobs
+                                        </Link></li>
                                         <li><Link to="about.html">
                                         {this.props.intl.formatMessage({ id: "About" })}
                                         </Link></li>
@@ -70,7 +73,7 @@ class Header extends Component {
                                 </nav>
                             </div>
                         </div>
-                        <div className="col-xl-4 col-lg-4 d-none d-lg-block">
+                        <div className="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div className="log_chat_area d-flex align-items-center">
                                 <Link to= "" onClick={this.props.onLoginClick} className="login popup-with-form">
                                     <i className="flaticon-user"></i>

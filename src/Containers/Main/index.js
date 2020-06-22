@@ -15,6 +15,7 @@ import Newsletter from '../../Components/Newsletter/Newsletter';
 import Footer from '../../Components/Footer/Footer';
 
 import "./../../css/bootstrap.min.css";
+import "./../../css/owl.carousel.min.css";
 import "./../../css/magnific-popup.css";
 import "./../../css/font-awesome.min.css";
 import "./../../css/themify-icons.css";
@@ -25,6 +26,8 @@ import "./../../css/animate.css";
 import "./../../css/slicknav.css";
 import "./../../css/style.css";
 import "./../../css/mycss.css";
+
+import './../../js/owl.carousel.min.js';
 
 class Main extends Component{
 
