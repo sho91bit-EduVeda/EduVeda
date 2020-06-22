@@ -23,8 +23,8 @@ class Header extends Component {
       <Wrapper>
       <header>
         <div className="header-area ">
-        <Langbar langChange={this.props.onLangChange} langName={this.props.eduLang} user={this.state.user}/>
             <div id="sticky-header" className="main-header-area">
+            <Langbar langChange={this.props.onLangChange} langName={this.props.eduLang} user={this.state.user}/>
                 <div className="container-fluid p-0">
                     <div className="row align-items-center no-gutters">
                         <div className="col-xl-1 col-lg-1">
@@ -42,14 +42,14 @@ class Header extends Component {
                                         <li><Link to="Courses.html">
                                         {this.props.intl.formatMessage({ id: "Courses" })}
                                         </Link></li>
-                                        <li><Link to="#">pages <i className="ti-angle-down"></i></Link>
+                                        <li><Link to="#">{this.props.intl.formatMessage({ id: "Pages" })} <i className="ti-angle-down"></i></Link>
                                             <ul className="submenu">
-                                                <li><Link to="course_details.html">course details</Link></li>
-                                                <li><Link to="elements.html">elements</Link></li>
+                                                <li><Link to="course_details.html">{this.props.intl.formatMessage({ id: "courseDetails" })}</Link></li>
+                                                <li><Link to="elements.html">{this.props.intl.formatMessage({ id: "elements" })}</Link></li>
                                             </ul>
                                         </li>
                                         <li><Link to="Courses.html">
-                                        Sarkari Jobs
+                                        {this.props.intl.formatMessage({ id: "SarkariJobs" })}
                                         </Link></li>
                                         <li><Link to="about.html">
                                         {this.props.intl.formatMessage({ id: "About" })}

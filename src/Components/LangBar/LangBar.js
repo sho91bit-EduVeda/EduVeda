@@ -1,24 +1,23 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Wrapper from './../../hoc/Wrapper';
 
 const langBar = (props) => {
   return (
     <Wrapper>
-      <div className="live_chat_btn">
-        <button
-          id="lang-btn"
-          className="link-button"
-          onClick={props.langChange}
-        >
+
+      <div className="log_chat_area d-flex align-items-center">
+        <Link to= "" onClick={props.langChange} className="login popup-with-form">
           {props.langName}
-        </button>
-        <span id="lang-btn">
+        </Link>
+        <span className="login popup-with-form">
           Hi{" "}
           {props.user.name !== undefined
             ? props.user.name
             : "Guest"}
-        </span>
+            </span>
       </div>
+
     </Wrapper>
   )
 }
