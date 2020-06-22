@@ -1,14 +1,4 @@
 import React, { Component } from "react";
-import "./../../css/bootstrap.min.css";
-import "./../../css/magnific-popup.css";
-import "./../../css/font-awesome.min.css";
-import "./../../css/themify-icons.css";
-import "./../../css/nice-select.css";
-import "./../../css/flaticon.css";
-import "./../../css/gijgo.css";
-import "./../../css/animate.css";
-import "./../../css/slicknav.css";
-import "./../../css/style.css";
 import logo from "./../../img/form-logo.png";
 
 class SignUp extends Component {

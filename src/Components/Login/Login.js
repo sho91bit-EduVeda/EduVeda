@@ -2,20 +2,10 @@ import React, { Component } from "react";
 import { injectIntl } from "react-intl";
 import logo from "./../../img/logo.png";
 import titleImg from "./../../img/banner/edu_ilastration.png";
-import Signin from "../../Components/Login/Signin.jsx";
+import Signin from "../../Components/Login/Signin";
 import Signup from "../../Components/Login/Signup.jsx";
 import engLocale from "../../Locale/en.json";
-import "./../../css/bootstrap.min.css";
-import "./../../css/magnific-popup.css";
-import "./../../css/font-awesome.min.css";
-import "./../../css/themify-icons.css";
-import "./../../css/nice-select.css";
-import "./../../css/flaticon.css";
-import "./../../css/gijgo.css";
-import "./../../css/animate.css";
-import "./../../css/slicknav.css";
-import "./../../css/style.css";
-import "./../../css/mycss.css";
+import Langbar from './../LangBar/LangBar';
 
 class Header extends Component {
   constructor(props) {
@@ -30,26 +20,6 @@ class Header extends Component {
   componentDidUpdate() {
     console.log("State after update: " + JSON.stringify(this.state));
   }
-
-  changeLanguage = () => {
-    switch (window.lang) {
-      case "hi":
-        window.localStorage.setItem("language", "en-US");
-        break;
-      default:
-        window.localStorage.setItem("language", "hi-IN");
-    }
-    window.location.reload();
-  };
-
-  getLinkName = () => {
-    switch (window.lang) {
-      case "hi":
-        return "English";
-      default:
-        return "Hindi";
-    }
-  };
 
   onLoginClick = (flag) => {
     this.setState({
@@ -84,21 +54,7 @@ class Header extends Component {
       <section>
         <header>
           <div className="header-area ">
-            <div className="live_chat_btn">
-              <button
-                id="lang-btn"
-                className="link-button"
-                onClick={() => this.changeLanguage()}
-              >
-                {this.getLinkName()}
-              </button>
-              <span id="lang-btn">
-                Hi{" "}
-                {this.state.user.name !== undefined
-                  ? this.state.user.name
-                  : "Guest"}
-              </span>
-            </div>
+            <Langbar langChange={()=>this.changeLanguage()} langName={this.getLinkName()} user={this.state.user}/>
             <div id="sticky-header" className="main-header-area">
               <div className="container-fluid p-0">
                 <div className="row align-items-center no-gutters">
