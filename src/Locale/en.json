@@ -1,11 +1,25 @@
 {
     "home": "Home",
     "Courses": "Courses",
-    "pages":"Pages",
     "courseDetails": "Course Details",
     "elements":"Elements",
     "About":"About",
     "blog":"Blog",
     "singleblog":"Single-Blog",
-    "Contact":"Contact"
+    "Contact":"Contact",
+    "BrowseOurCourses": "Browse Our Courses",
+    "sliderAreaTitle":"Learn your Favorite Courses Online",
+    "LogIn":"log in",
+    "SignUp": "Sign Up",
+    "AboutAreaH3":"Over 7000 Tutorials from 20 Courses",
+    "EnrollCourse":"Enroll a Course",
+    "Resources":"Resources",
+    "Tutorials":"Tutorials",
+    "Address":"Address",
+    "Subscribe":"Subscribe Newsletter",
+    "NewsletterContent":"Your domain control panel is designed for ease-of-use and allows for all aspects of your",
+    "NewsletterTitle": "Your domain control panel is",
+    "BlogsTitle":"Our Latest Blog",
+    "PopularCoursesTitle":"Popular Courses",
+    "PopularCourseDesc":"Your domain control panel is designed for ease-of-use and allows for all aspects of your"
 }
