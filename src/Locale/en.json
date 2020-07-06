@@ -12,7 +12,10 @@
     "BrowseOurCourses": "Browse Our Courses",
     "sliderAreaTitle":"Learn your Favorite Courses Online",
     "LogIn":"log in",
+    "SignIn":"Sign In",
     "SignUp": "Sign Up",
+    "Registration":"Registration",
+    "DontHaveAnAcct": "Don’t have an account",
     "AboutAreaH3":"Over 7000 Tutorials from 20 Courses",
     "EnrollCourse":"Enroll a Course",
     "Resources":"Resources",
@@ -23,5 +26,6 @@
     "NewsletterTitle": "Your domain control panel is",
     "BlogsTitle":"Our Latest Blog",
     "PopularCoursesTitle":"Popular Courses",
-    "PopularCourseDesc":"Your domain control panel is designed for ease-of-use and allows for all aspects of your"
+    "PopularCourseDesc":"Your domain control panel is designed for ease-of-use and allows for all aspects of your",
+    "MoreCourses":"More Courses"
 }

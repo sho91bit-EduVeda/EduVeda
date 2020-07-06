@@ -709,6 +709,13 @@ h3 {
   top: 11px;
 }
 
+.slicknav_menu .slicknav_nav .lang {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+  text-transform: capitalize;
+}
 /* line 28, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_slick-nav.scss */
 .slicknav_menu .slicknav_nav a:hover {
   background: transparent;
@@ -999,6 +1006,9 @@ h3 {
   }
 }
 
+.header-area .main-header-area .main-menu ul .lang{
+  display:none;
+}
 /* line 113, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_header.scss */
 .header-area .main-header-area .main-menu ul li a i {
   font-size: 9px;
@@ -2042,6 +2052,16 @@ h3 {
 
 /* line 109, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
 .popup_box input {
+  width: 100%;
+  border: none;
+  padding: 0 30px;
+  margin-bottom: 20px;
+  color: #000;
+  border-radius: 3px;
+  height: 50px;
+}
+
+.popup_box select {
   width: 100%;
   border: none;
   padding: 0 30px;

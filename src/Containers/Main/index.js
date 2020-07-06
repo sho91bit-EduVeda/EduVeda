@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import {BrowserRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
 import Wrapper from './../../hoc/Wrapper';
 
 import Modal from '../../Components/UI/Modal/Modal';
@@ -16,28 +18,20 @@ import Footer from '../../Components/Footer/Footer';
 
 class Main extends Component{
 
-  state = {
-    showLogin:false,
-    showSignup:false
-  }
-
   loginHandler = () => {
-    this.setState({showLogin: true});
+    this.props.showForm(true,false);
   }
 
   closeLoginHandler = () => {
-    this.setState({showLogin: false});
+    this.props.showForm(false,false);
   }
 
   showSignUpHandler = () => {
-    this.setState({
-      showLogin: false,
-      showSignup:true
-    });
+    this.props.showForm(false,true);
   }
 
   closeSignupHandler = () => {
-    this.setState({showSignup: false});
+    this.props.showForm(false,false);
   }
 
   changeLanguage = () => {
@@ -65,7 +59,7 @@ class Main extends Component{
         <BrowserRouter>
             <Wrapper>
                 <Header onLangChange={()=>this.changeLanguage()} eduLang={this.getLinkName()} onLoginClick={this.loginHandler}/>
-                <SliderArea/>
+                <SliderArea loggedInUser={this.props.user}/>
                 <AboutArea/>
                 <PopularCourses/>
                 <Testimonials/>
@@ -73,10 +67,10 @@ class Main extends Component{
                 <Blogs/>
                 <Footer/>
 
-                <Modal show={this.state.showLogin} modalClosed={this.closeLoginHandler} >
+                <Modal show={this.props.showLogin} modalClosed={this.closeLoginHandler} >
                     <SignIn onLoginBtnClick={this.showSignUpHandler}/>
                 </Modal>
-                <Modal show={this.state.showSignup} modalClosed={this.closeSignupHandler}>
+                <Modal show={this.props.showSignup} modalClosed={this.closeSignupHandler}>
                     <SignUp/>
                 </Modal>
             </Wrapper>
@@ -85,4 +79,19 @@ class Main extends Component{
     }
 }
 
-export default Main;
+const mapStateToProps = state => {
+    return {
+        user : state.auth.user,
+        showLogin : state.auth.showLogin,
+        showSignup : state.auth.showSignup
+
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    showForm: (showLogin,showSignup) => dispatch(actions.showLoginForm(showLogin,showSignup))
+  };
+};
+
+export default connect( mapStateToProps, mapDispatchToProps)(Main);

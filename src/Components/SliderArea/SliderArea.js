@@ -7,6 +7,9 @@ import Wrapper from './../../hoc/Wrapper';
 import titleImg from "./../../img/banner/edu_ilastration.png";
 
 const sliderArea = (props) => {
+
+  console.log("Slider Area: "+props.loggedInUser.name);
+
   return (
     <Wrapper>
     <div className="slider_area">
@@ -19,6 +22,8 @@ const sliderArea = (props) => {
             <div className="col-xl-6 col-md-6">
               <div className="slider_info">
                 <h3>
+                  {props.loggedInUser.name != null ? "Hi, "+props.loggedInUser.name : "Hi, Guest"}
+                  <br></br>
                   {props.intl.formatMessage({ id: "sliderAreaTitle" })}
                 </h3>
                 <Link to="/browse" className="boxed_btn">

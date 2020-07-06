@@ -1,63 +1,84 @@
 import React, { Component } from "react";
-import LoginDetails from "./../../Configs/LoginConfig";
+import { injectIntl } from "react-intl";
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Logo from './../Logo/Logo';
 import Wrapper from './../../hoc/Wrapper';
 import eduvedaLogo from "./../../img/form-logo.png";
+import * as actions from '../../store/actions/index';
 
 class SignIn extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+      controls : {
+        email: {
+                value: '',
+                validation: {
+                    required: true,
+                    isEmail: true
+                },
+                valid: false,
+                touched: false
+            },
+            password: {
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 6
+                },
+                valid: false,
+                touched: false
+            }
+        },
+      }
 
-    this.state = {
-      username: "",
-      password: "",
-      showRegister: false
-    };
+  checkValidity ( value, rules ) {
+          let isValid = true;
+          if ( !rules ) {
+              return true;
+          }
+
+          if ( rules.required ) {
+              isValid = value.trim() !== '' && isValid;
+          }
+
+          if ( rules.minLength ) {
+              isValid = value.length >= rules.minLength && isValid
+          }
+
+          if ( rules.maxLength ) {
+              isValid = value.length <= rules.maxLength && isValid
+          }
+
+          if ( rules.isEmail ) {
+              const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+              isValid = pattern.test( value ) && isValid
+          }
+
+          if ( rules.isNumeric ) {
+              const pattern = /^\d+$/;
+              isValid = pattern.test( value ) && isValid
+          }
+
+          return isValid;
   }
 
-  onUpdateField = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.onChange(name, this.checkAndRemoveWhiteSpaces(value));
-  };
+  inputChangedHandler = ( event, controlName ) => {
+        const updatedControls = {
+            ...this.state.controls,
+            [controlName]: {
+                ...this.state.controls[controlName],
+                value: event.target.value,
+                valid: this.checkValidity( event.target.value, this.state.controls[controlName].validation ),
+                touched: true
+            }
+        };
+        this.setState( { controls: updatedControls } );
+  }
 
-  checkAndRemoveWhiteSpaces = (str) => {
-    return str.replace(/^\s+|\s+$|\s*(\s)/g, "$1");
-  };
-
-  onChange = (name, value) => {
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  closePopup = () => {
-    this.props.onSignInChange({
-      showLogin: false,
-    });
-  };
-
-  onSignUpClick = (flag) => {
-    this.props.onSignInChange({
-      showLogin: false,
-      showRegister: true,
-    });
-  };
-
-  loginUser = () => {
-    LoginDetails.users.forEach(user => {
-      if (
-        user.username === this.state.username &&
-        user.password === this.state.password
-      ) {
-        this.props.onSignInChange({
-          user: user,
-          showLogin:false
-        });
-      }
-    });
-  };
+  submitHandler = ( event ) => {
+        event.preventDefault();
+        this.props.onAuth( null,null,null,this.state.controls.email.value, this.state.controls.password.value, false);
+    }
 
   render() {
     return (
@@ -65,17 +86,18 @@ class SignIn extends Component {
           <div id="test-form" className="white-popup-block">
               <div className="popup_box ">
                   <div className="popup_inner">
-                      <Logo altVal="eduvedaLogo" logoPath={eduvedaLogo} id="logo text-center"/>
-                      <h3>Sign in</h3>
-                      <form action="#">
+                      <Logo altVal="eduvedaLogoHeader" logoPath={eduvedaLogo} id="logo text-center"/>
+                      <h3>{this.props.intl.formatMessage({ id: "SignIn" })}</h3>
+                      <form onSubmit={this.submitHandler}>
                           <div className="row">
                               <div className="col-xl-12 col-md-12">
                               <input
                                 type="text"
-                                name="username"
-                                placeholder="Enter Username"
-                                onChange={this.onUpdateField}
-                                onBlur={this.onUpdateField}
+                                name="email"
+                                placeholder="Enter Email"
+                                onChange={( event ) => this.inputChangedHandler(event, "email")}
+                                onBlur={( event ) => this.inputChangedHandler(event, "email")}
+                                value={this.state.email}
                               />
                               </div>
                               <div className="col-xl-12 col-md-12">
@@ -83,29 +105,30 @@ class SignIn extends Component {
                                 type="text"
                                 name="password"
                                 placeholder="Password"
-                                onChange={this.onUpdateField}
-                                onBlur={this.onUpdateField}
+                                onChange={( event ) => this.inputChangedHandler(event, "password")}
+                                onBlur={( event ) => this.inputChangedHandler(event, "password")}
+                                value={this.state.password}
                               />
                               </div>
                               <div className="col-xl-12">
                               <button
-                                type="button"
+                                type="submit"
                                 className="boxed_btn_orange"
-                                onClick={() => this.loginUser()}
                               >
-                                Sign in
+                                {this.props.intl.formatMessage({ id: "SignIn" })}
                               </button>
                               </div>
                           </div>
                       </form>
                       <p className="doen_have_acc">
-                        Don’t have an account?{" "}
-                        <button
+                        {this.props.intl.formatMessage({ id: "DontHaveAnAcct" })}?{" "}
+                        <Link
+                          to=""
                           className="dont-hav-acc link-button"
                           onClick={this.props.onLoginBtnClick}
                         >
-                          Sign Up
-                        </button>
+                          {this.props.intl.formatMessage({ id: "SignUp" })}
+                        </Link>
                       </p>
                   </div>
               </div>
@@ -115,4 +138,19 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+const mapStateToProps = state => {
+    return {
+        token: state.auth.token,
+        localId: state.auth.localId,
+        loading: state.auth.loading,
+        error: state.auth.error
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuth: ( fullName,phoneNumber, userType, email, password, isSignup ) => dispatch( actions.auth( fullName,phoneNumber, userType, email, password, isSignup ) )
+    };
+};
+
+export default connect( mapStateToProps, mapDispatchToProps )(injectIntl(SignIn));

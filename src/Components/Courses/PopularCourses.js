@@ -89,7 +89,7 @@ class PopularCourses extends Component {
                                       )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@ class PopularCourses extends Component {
                             )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@ class PopularCourses extends Component {
                             )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@ class PopularCourses extends Component {
                             )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@ class PopularCourses extends Component {
                             )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +149,7 @@ class PopularCourses extends Component {
                             )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@ class PopularCourses extends Component {
                             )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +173,7 @@ class PopularCourses extends Component {
                             )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@ class PopularCourses extends Component {
                             )}
                                     <div className="col-xl-12">
                                         <div className="more_courses text-center">
-                                            <Link to="#" className="boxed_btn_rev">More Courses</Link>
+                                            <Link to="#" className="boxed_btn_rev">{this.props.intl.formatMessage({ id: "MoreCourses" })}</Link>
                                         </div>
                                     </div>
                                 </div>
