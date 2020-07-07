@@ -5,7 +5,6 @@ import Wrapper from '../../../hoc/Wrapper';
 import Backdrop from '../Backdrop/Backdrop';
 
 const modal = ( props ) => {
-  console.log("Modal Props: "+props.show);
   return (
     <Wrapper>
         <Backdrop show={props.show} clicked={props.modalClosed} />

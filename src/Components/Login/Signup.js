@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
 import { connect } from 'react-redux';
-import Logo from './../Logo/Logo';
+//import Logo from './../Logo/Logo';
 import Wrapper from './../../hoc/Wrapper';
-import eduvedaLogo from "./../../img/form-logo.png";
+//import eduvedaLogo from "./../../img/form-logo.png";
 import * as actions from '../../store/actions/index';
 
 class SignUp extends Component {

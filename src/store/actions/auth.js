@@ -64,6 +64,9 @@ export const getUserDetailsFail = (error) => {
 };
 
 export const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('userId');
     return {
         type: actionTypes.AUTH_LOGOUT
     };
@@ -105,17 +108,20 @@ export const addUserOnSignUp = (localId,fullName, email, phoneNumber, userType) 
 export const getLoggedInUser = (localId) => {
   return dispatch => {
     dispatch(getUserDetailsStart());
-    const queryParam = '?userId='+localId;
+    const queryParam = '?userId=' + localId;
     let dbUrl = "https://eduveda-b62d6.firebaseio.com/users.json"+ queryParam;
+    console.log("Get LoggedIn User query: "+ dbUrl);
 
     axios.get(dbUrl)
         .then(response => {
             console.log(response.data);
             let user = {};
             for(let key in response.data){
-              user = {
-                ...response.data[key],
-              };
+              if(response.data[key].userId === localId) {
+                user = {
+                  ...response.data[key],
+                };
+              }
             }
             dispatch(getUserDetailsSuccess(user));
         })
@@ -143,7 +149,10 @@ export const auth = ( fullName, phoneNumber, userType,email, password, isSignup)
 
         axios.post(url, authData)
             .then(response => {
-                console.log(response);
+                const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
+                localStorage.setItem('token', response.data.idToken);
+                localStorage.setItem('expirationDate', expirationDate);
+                localStorage.setItem('userId', response.data.localId);
                 dispatch(authSuccess(response.data.idToken, response.data.localId));
                 dispatch(checkAuthTimeout(response.data.expiresIn));
                 if(isSignup){
@@ -166,4 +175,30 @@ export const showLoginForm = (showLogin,showSignup) => {
     showLogin: showLogin,
     showSignUp: showSignup
   };
+};
+
+export const setAuthRedirectPath = (path) => {
+    return {
+        type: actionTypes.SET_AUTH_REDIRECT_PATH,
+        path: path
+    };
+};
+
+export const authCheckState = () => {
+    return dispatch => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            dispatch(logout());
+        } else {
+            const expirationDate = new Date(localStorage.getItem('expirationDate'));
+            if (expirationDate <= new Date()) {
+                dispatch(logout());
+            } else {
+                const userId = localStorage.getItem('userId');
+                dispatch(getLoggedInUser(userId));
+                dispatch(authSuccess(token, userId));
+                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
+            }
+        }
+    };
 };
