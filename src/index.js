@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+import authReducer from './store/reducers/auth';
 /* loading translation & internationalization */
 import antdEn from 'antd/lib/locale-provider/en_US';
 import antdHi from 'antd/lib/locale-provider/hi_IN';
@@ -67,14 +70,24 @@ switch(locale) {
 
 addLocaleData(appLocale.data);
 
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const rootReducer = combineReducers({
+    auth: authReducer
+});
+
+const store = createStore(rootReducer, composeEnhancers(
+    applyMiddleware(thunk)
+));
+
 ReactDOM.render(
+  <Provider store={store}>
   <ConfigProvider locale={appLocale.antd}>
     <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
       <Main />
     </IntlProvider>
-  </ConfigProvider>,
+  </ConfigProvider>
+  </Provider>,
   document.getElementById('root')
 );
-
-
-
