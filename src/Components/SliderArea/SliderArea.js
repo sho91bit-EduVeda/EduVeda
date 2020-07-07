@@ -7,9 +7,6 @@ import Wrapper from './../../hoc/Wrapper';
 import titleImg from "./../../img/banner/edu_ilastration.png";
 
 const sliderArea = (props) => {
-
-  console.log("Slider Area: "+props.loggedInUser.name);
-
   return (
     <Wrapper>
     <div className="slider_area">
