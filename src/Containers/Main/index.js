@@ -18,6 +18,10 @@ import Footer from '../../Components/Footer/Footer';
 
 class Main extends Component{
 
+  componentDidMount () {
+      this.props.onTryAutoSignup();
+    }
+    
   loginHandler = () => {
     this.props.showForm(true,false);
   }
@@ -83,14 +87,15 @@ const mapStateToProps = state => {
     return {
         user : state.auth.user,
         showLogin : state.auth.showLogin,
-        showSignup : state.auth.showSignup
-
+        showSignup : state.auth.showSignup,
+        isAuthenticated: state.auth.token !== null
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    showForm: (showLogin,showSignup) => dispatch(actions.showLoginForm(showLogin,showSignup))
+    showForm: (showLogin,showSignup) => dispatch(actions.showLoginForm(showLogin,showSignup)),
+    onTryAutoSignup: () => dispatch( actions.authCheckState() )
   };
 };
 

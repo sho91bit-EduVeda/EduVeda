@@ -6,9 +6,13 @@ import Logo from './../Logo/Logo';
 import Wrapper from './../../hoc/Wrapper';
 
 import eduvedaLogo from "./../../img/form-logo.png";
+import * as actions from '../../store/actions/index';
 
 class Header extends Component {
 
+logoutHandler = () => {
+  this.props.onAuthLogout();
+}
   render() {
     return (
       <Wrapper>
@@ -83,7 +87,7 @@ class Header extends Component {
                                               <li><Link to="">
                                               Profile
                                               </Link></li>
-                                              <li><Link to="">
+                                              <li><Link to="" onClick={this.logoutHandler}>
                                               Logout
                                               </Link></li>
                                           </ul>
@@ -128,4 +132,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect( mapStateToProps)(injectIntl(Header));
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuthLogout: () => dispatch(actions.logout())
+  };
+};
+
+export default connect( mapStateToProps, mapDispatchToProps)(injectIntl(Header));

@@ -1,5 +1,8 @@
 export {
     auth,
+    logout,
     addUserOnSignUp,
-    showLoginForm
+    showLoginForm,
+    setAuthRedirectPath,
+    authCheckState
 } from './auth';
