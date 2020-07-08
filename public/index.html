@@ -40,33 +40,58 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
-    <!-- JS here -->
-      <script src="js/vendor/modernizr-3.5.0.min.js"></script>
-      <script src="js/vendor/jquery-1.12.4.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/owl.carousel.min.js"></script>
-      <script src="js/isotope.pkgd.min.js"></script>
-      <script src="js/ajax-form.js"></script>
-      <script src="js/waypoints.min.js"></script>
-      <script src="js/jquery.counterup.min.js"></script>
-      <script src="js/imagesloaded.pkgd.min.js"></script>
-      <script src="js/scrollIt.js"></script>
-      <script src="js/jquery.scrollUp.min.js"></script>
-      <script src="js/wow.min.js"></script>
-      <script src="js/nice-select.min.js"></script>
-      <script src="js/jquery.slicknav.min.js"></script>
-      <script src="js/jquery.magnific-popup.min.js"></script>
-      <script src="js/plugins.js"></script>
-      <script src="js/gijgo.min.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
 
-      <!--contact js-->
-      <script src="js/contact.js"></script>
-      <script src="js/jquery.ajaxchimp.min.js"></script>
-      <script src="js/jquery.form.js"></script>
-      <script src="js/jquery.validate.min.js"></script>
-      <script src="js/mail-script.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-analytics.js"></script>
 
-      <script src="js/main.js"></script>
-  </body>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBc97fC5mzrhhvHnHVFwTOPpJohS_jkimo",
+      authDomain: "eduveda-b62d6.firebaseapp.com",
+      databaseURL: "https://eduveda-b62d6.firebaseio.com",
+      projectId: "eduveda-b62d6",
+      storageBucket: "eduveda-b62d6.appspot.com",
+      messagingSenderId: "140147138108",
+      appId: "1:140147138108:web:7821f79296bce6eac62d39",
+      measurementId: "G-PKBCQVQMNZ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+  <!-- JS here -->
+  <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+  <script src="js/vendor/jquery-1.12.4.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/isotope.pkgd.min.js"></script>
+  <script src="js/ajax-form.js"></script>
+  <script src="js/waypoints.min.js"></script>
+  <script src="js/jquery.counterup.min.js"></script>
+  <script src="js/imagesloaded.pkgd.min.js"></script>
+  <script src="js/scrollIt.js"></script>
+  <script src="js/jquery.scrollUp.min.js"></script>
+  <script src="js/wow.min.js"></script>
+  <script src="js/nice-select.min.js"></script>
+  <script src="js/jquery.slicknav.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/gijgo.min.js"></script>
+
+  <!--contact js-->
+  <script src="js/contact.js"></script>
+  <script src="js/jquery.ajaxchimp.min.js"></script>
+  <script src="js/jquery.form.js"></script>
+  <script src="js/jquery.validate.min.js"></script>
+  <script src="js/mail-script.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+
 </html>

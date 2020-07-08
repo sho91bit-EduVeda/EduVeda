@@ -96,6 +96,7 @@ export const addUserOnSignUp = (localId,fullName, email, phoneNumber, userType) 
     axios.post(dbUrl, userData)
         .then(response => {
             console.log(response.data);
+            dispatch(getLoggedInUser(localId));
           dispatch(addUserSuccess(response.data.name));
         })
         .catch(err => {
