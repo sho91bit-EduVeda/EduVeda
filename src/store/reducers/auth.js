@@ -8,14 +8,17 @@ const initialState = {
     loading: false,
     userName: null,
     user: {
+      dob: null,
       email: null,
-  		name: null,
+  		fullName: null,
   		phoneNumber: null,
   		userId: null,
-  		userType: null
+  		roles: null
     },
     showLogin:false,
     showSignup:false,
+    isBirthdayToday:false,
+    showBdaySurprise:false,
     authRedirectPath: '/'
 };
 
@@ -66,11 +69,7 @@ const getUserDetailsStart = ( state, action ) => {
 };
 
 const getUserDetailsSuccess = ( state, action ) => {
-  const user = {
-    ...action.userInfo
-  };
-
-  return updateObject( state, { error: null, user: user } );
+  return updateObject( state, { error: null, user: action.userInfo } );
 };
 
 const getUserDetailsFail = (state, action) => {
@@ -81,6 +80,10 @@ const getUserDetailsFail = (state, action) => {
 
 const showSignInOrSignUp = (state, action) => {
   return updateObject(state, {showLogin:action.showLogin, showSignup:action.showSignUp});
+};
+
+const showBdaySurprise = (state, action) => {
+  return updateObject(state, {showBdaySurprise: action.showSurprise, isBirthdayToday: action.isBdayToday});
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -97,6 +100,7 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.GET_USER_DETAILS_SUCCESS: return getUserDetailsSuccess(state, action);
         case actionTypes.GET_USER_DETAILS_FAIL: return getUserDetailsFail(state, action);
         case actionTypes.SHOW_SIGNIN_OR_SIGNIN: return showSignInOrSignUp(state, action);
+        case actionTypes.SHOW_BDAY_SURPRISE: return showBdaySurprise(state, action);
         default:
             return state;
     }

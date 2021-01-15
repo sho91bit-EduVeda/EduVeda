@@ -13,8 +13,12 @@ import hiMessages from './Locale/hi.json';//custom text
 import enMessages from './Locale/en.json';//custom text
 import { IntlProvider, addLocaleData } from 'react-intl';
 import { ConfigProvider } from 'antd';
+//import { firebase } from './Firebase/index';
 
 import Main from './Containers/Main';
+import './Style/eduveda.css';
+import 'bootstrap';
+import '@popperjs/core';
 
 
 ///first check saved language in Browser local storage, if not then check for passed parameter lang in url

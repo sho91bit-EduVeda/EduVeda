@@ -109,11 +109,8 @@ class SignUp extends Component {
 
   submitHandler = ( event ) => {
         event.preventDefault();
-        this.props.onAuth(this.state.controls.fullName.value,this.state.controls.phoneNumber.value, this.state.controls.userType.value, this.state.controls.email.value, this.state.controls.password.value, true);
-        /*if(this.props.localId)
-        {
-          this.props.onAddUserOnSignUp(this.props.localId,this.state.controls.fullName.value, this.state.controls.email.value,this.state.controls.phoneNumber.value, this.state.controls.userType.value);
-        }*/
+        console.log(JSON.stringify(this.state));
+        this.props.onAuth(this.state.controls.fullName.value,this.state.controls.phoneNumber.value, this.state.controls.userType.value, this.state.controls.email.value, this.state.controls.password.value);
     }
 
   render() {
@@ -176,7 +173,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: ( fullName,phoneNumber, userType, email, password, isSignup ) => dispatch( actions.auth( fullName,phoneNumber, userType, email, password, isSignup ) )
+        onAuth: ( fullName,phoneNumber, userType, email, password ) => dispatch( actions.eduvedaSignUp( fullName,phoneNumber, userType, email, password ) )
     };
 };
 

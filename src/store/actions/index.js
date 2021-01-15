@@ -1,8 +1,12 @@
 export {
-    auth,
+    eduvedaSignUp,
+    eduvedaSignIn,
     logout,
-    addUserOnSignUp,
     showLoginForm,
     setAuthRedirectPath,
-    authCheckState
+    authCheckState,
+    showSurpriseForm,
+    startGoogleLogin,
+    getUserDetailsSuccess,
+    authSuccess
 } from './auth';

@@ -1,10 +1,12 @@
 import React,{Component} from 'react';
 import {BrowserRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import * as actions from '../../store/actions/index';
 import Wrapper from './../../hoc/Wrapper';
 
 import Modal from '../../Components/UI/Modal/Modal';
+import Birthday from '../../Components/Birthday/Birthday';
 import SignIn from '../../Components/Login/Signin';
 import SignUp from '../../Components/Login/Signup';
 import Header from '../../Components/Header/Header';
@@ -16,12 +18,14 @@ import Blogs from '../../Components/Blogs/Blogs';
 import Newsletter from '../../Components/Newsletter/Newsletter';
 import Footer from '../../Components/Footer/Footer';
 
+import SignUpMain from '../../Components/Login/SignupMain';
+
 class Main extends Component{
 
   componentDidMount () {
       this.props.onTryAutoSignup();
     }
-    
+
   loginHandler = () => {
     this.props.showForm(true,false);
   }
@@ -36,6 +40,10 @@ class Main extends Component{
 
   closeSignupHandler = () => {
     this.props.showForm(false,false);
+  }
+
+  closeSurpriseForm = () => {
+    this.props.showSurpriseForm(false,true);
   }
 
   changeLanguage = () => {
@@ -58,21 +66,32 @@ class Main extends Component{
     }
   };
 
+  showSurprise = () => {
+    this.props.showSurpriseForm(true,true);
+  }
+
     render(){
+
+      const BirthdayComponent = this.props.isAuthenticated ?
+        <Modal show={this.props.showSurprise} modalClosed={this.closeSurpriseForm} >
+            <Birthday/>
+        </Modal> : null;
+
+
         return(
         <BrowserRouter>
             <Wrapper>
                 <Header onLangChange={()=>this.changeLanguage()} eduLang={this.getLinkName()} onLoginClick={this.loginHandler}/>
-                <SliderArea loggedInUser={this.props.user}/>
+                <SliderArea isUserAuthenticated={this.props.isAuthenticated} loggedInUser={this.props.user} isBdayToday={this.props.isBdayToday}  onSurpriseButtonClick= {this.showSurprise}/>
                 <AboutArea/>
                 <PopularCourses/>
                 <Testimonials/>
                 <Newsletter/>
                 <Blogs/>
                 <Footer/>
-
+                {BirthdayComponent}
                 <Modal show={this.props.showLogin} modalClosed={this.closeLoginHandler} >
-                    <SignIn onLoginBtnClick={this.showSignUpHandler}/>
+                  <SignUpMain/>
                 </Modal>
                 <Modal show={this.props.showSignup} modalClosed={this.closeSignupHandler}>
                     <SignUp/>
@@ -88,14 +107,17 @@ const mapStateToProps = state => {
         user : state.auth.user,
         showLogin : state.auth.showLogin,
         showSignup : state.auth.showSignup,
-        isAuthenticated: state.auth.token !== null
+        isAuthenticated: state.auth.token !== null,
+        isBdayToday: state.auth.isBirthdayToday,
+        showSurprise: state.auth.showBdaySurprise
     };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     showForm: (showLogin,showSignup) => dispatch(actions.showLoginForm(showLogin,showSignup)),
-    onTryAutoSignup: () => dispatch( actions.authCheckState() )
+    onTryAutoSignup: () => dispatch( actions.authCheckState() ),
+    showSurpriseForm: (showBdaySurprise,isBdayToday) => dispatch(actions.showSurpriseForm(showBdaySurprise,isBdayToday))
   };
 };
 

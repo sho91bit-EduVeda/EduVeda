@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Logo from './../Logo/Logo';
 import Wrapper from './../../hoc/Wrapper';
-
+import './Header.css';
 import eduvedaLogo from "./../../img/form-logo.png";
 import * as actions from '../../store/actions/index';
 
@@ -25,7 +25,7 @@ logoutHandler = () => {
                         <div className="col-xl-2 col-lg-2">
                             <Logo altVal="eduvedaLogoHeader" logoPath={eduvedaLogo} id="logo"/>
                         </div>
-                        <div className="col-xl-7 col-lg-7">
+                        <div className="col-xl-5 col-lg-5">
                             <div className="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
@@ -34,21 +34,50 @@ logoutHandler = () => {
                                         {this.props.intl.formatMessage({ id: "home" })}
                                         </Link>
                                         </li>
-                                        <li><Link to="Courses.html">
-                                        {this.props.intl.formatMessage({ id: "Courses" })}
-                                        </Link></li>
-                                        <li><Link to="#">{this.props.intl.formatMessage({ id: "Pages" })} <i className="ti-angle-down"></i></Link>
-                                            <ul className="submenu">
-                                                <li><Link to="course_details.html">{this.props.intl.formatMessage({ id: "courseDetails" })}</Link></li>
-                                                <li><Link to="elements.html">{this.props.intl.formatMessage({ id: "elements" })}</Link></li>
-                                            </ul>
+                                        <li><Link to="/">{this.props.intl.formatMessage({ id: "Courses" })}<i className="ti-angle-down" style={{paddingLeft:"5px"}}></i></Link>
+                                          <ul className="submenu">
+                                            <li >
+                                              <Link to="#">{this.props.intl.formatMessage({ id: "Below 12th Std" })}<i className="ti-angle-right"/></Link>
+                                              <ul className="submenu" style={{top:"0",left:"117%"}}>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Syllabus" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Mock Paper" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Books & Publications" })}</Link></li>
+                                              </ul>
+                                            </li>
+
+                                            <li >
+                                              <Link to="#">{this.props.intl.formatMessage({ id: "Government" })}<i className="ti-angle-right"/></Link>
+                                              <ul className="submenu" style={{top:"0",left:"117%"}}>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Upcoming Jobs" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Upcoming Result" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Upcoming Admit Cards" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Mock Paper" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Syllabus" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Books & Publications" })}</Link></li>
+
+                                              </ul>
+                                            </li>
+
+                                            <li >
+                                              <Link to="#">{this.props.intl.formatMessage({ id: "Professional" })}<i className="ti-angle-right"/></Link>
+                                              <ul className="submenu" style={{top:"0",left:"117%"}}>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "New Courses" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Mock Paper" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Syllabus" })}</Link></li>
+                                                    <li><Link to="/">{this.props.intl.formatMessage({ id: "Upcoming Campus Placements" })}</Link></li>
+                                              </ul>
+                                            </li>
+
+                                          </ul>
                                         </li>
-                                        <li><Link to="Courses.html">
+
+                                        {/*<li><Link to="Courses.html">
                                         {this.props.intl.formatMessage({ id: "SarkariJobs" })}
-                                        </Link></li>
+                                        </Link></li>*/}
                                         <li><Link to="about.html">
                                         {this.props.intl.formatMessage({ id: "About" })}
                                         </Link></li>
+                                        {this.props.token ?
                                         <li><Link to="#">
                                         {this.props.intl.formatMessage({ id: "blog" })}
                                          <i className="ti-angle-down"></i></Link>
@@ -60,7 +89,7 @@ logoutHandler = () => {
                                                 {this.props.intl.formatMessage({ id: "singleblog" })}
                                                 </Link></li>
                                             </ul>
-                                        </li>
+                                        </li> : null}
                                         <li><Link to="contact.html">
                                         {this.props.intl.formatMessage({ id: "Contact" })}
                                         </Link></li>
@@ -73,45 +102,51 @@ logoutHandler = () => {
                                 </nav>
                             </div>
                         </div>
-                        <div className="col-xl-2 col-lg-2 main-menu d-none d-lg-block">
+                        <div className="col-xl-5 col-lg-5">
+                          <div className="main-menu d-none d-lg-block">
                             <div className="log_chat_area d-flex align-items-center">
-                                <div className="login popup-with-form">
-                                  {this.props.user.name ?
-                                    <nav>
-                                    <ul>
-
-                                      <li>
-                                        <i className="flaticon-user"></i>
-                                        <Link to= "" className="login popup-with-form">Account</Link>
-                                          <ul className="submenu">
-                                              <li><Link to="">
-                                              Profile
-                                              </Link></li>
-                                              <li><Link to="" onClick={this.logoutHandler}>
-                                              Logout
-                                              </Link></li>
-                                          </ul>
-                                      </li>
-
-                                    </ul>
-                                    </nav> :
-
-                                    <Link to= "" onClick={this.props.onLoginClick} className="login popup-with-form">
-                                      <i className="flaticon-user"></i>
-                                        <span>{this.props.intl.formatMessage({ id: "LogIn" })}</span>
-                                    </Link>
-                                  }
+                                <div className="searchBox">
+                                  <div className="searchInputDiv">
+                                    <input type="text" placeholder="Search.." style={{backgroundColor: "#f6f3f3",border:"none"}}/>
+                                    <button className="searchIcon"><i className="ti-search" style={{color: "grey"}}/></button>
+                                    </div>
                                   </div>
+
+                                  {this.props.token ?
+                                    <div style={{paddingLeft: "60px"}}>
+                                      <nav>
+                                        <ul>
+                                          <li>
+                                            <i className="flaticon-user" style={{color:"white",paddingRight:"5px"}}></i>
+                                            <Link className="login popup-with-form">Account</Link>
+                                              <ul className="submenu">
+                                                  <li><Link to="">
+                                                  Profile
+                                                  </Link></li>
+                                                  <li><Link to="" onClick={this.logoutHandler}>
+                                                  Logout
+                                                  </Link></li>
+                                              </ul>
+                                          </li>
+                                        </ul>
+                                      </nav>
+                                    </div>
+                                    :
+                                    <div>
+                                      <Link to= "" onClick={this.props.onLoginClick} className="login popup-with-form"  style={{paddingLeft: "60px"}}>
+                                        <i className="flaticon-user"></i>
+                                          <span>{this.props.intl.formatMessage({ id: "LogIn" })}</span>
+                                      </Link>
+                                    </div>
+                                  }
+                                  <div>
+                                    <Link to= "" onClick={this.props.onLangChange} className="boxed_btn_orange">
+                                      {this.props.eduLang}
+                                    </Link>
+                                  </div>
+
                             </div>
-                        </div>
-                        <div className="col-xl-1 col-lg-1">
-                          <div className="main-menu  d-none d-lg-block">
-                          <div className="live_chat_btn">
-                              <Link to= "" onClick={this.props.onLangChange} className="boxed_btn_orange">
-                                {this.props.eduLang}
-                              </Link>
                           </div>
-                        </div>
                         </div>
                         <div className="col-12">
                             <div className="mobile_menu d-block d-lg-none"></div>
@@ -128,6 +163,7 @@ logoutHandler = () => {
 
 const mapStateToProps = state => {
     return {
+        token : state.auth.token,
         user : state.auth.user
     };
 };

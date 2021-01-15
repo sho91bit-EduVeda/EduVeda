@@ -1,4 +1,5 @@
-import axios from 'axios';
+import moment from 'moment';
+import googleAuthProvider , { firebase }  from './../../Firebase/index';
 
 import * as actionTypes from './actionTypes';
 
@@ -64,12 +65,22 @@ export const getUserDetailsFail = (error) => {
 };
 
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
-    localStorage.removeItem('userId');
-    return {
-        type: actionTypes.AUTH_LOGOUT
-    };
+  return dispatch => {
+    firebase.auth().signOut().then(function() {
+      dispatch(authLogout());
+    }).catch(function(error) {
+      console.log("Error on logout "+ error);
+    });
+  };
+};
+
+export const authLogout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('expirationDate');
+  localStorage.removeItem('userId');
+  return{
+      type: actionTypes.AUTH_LOGOUT
+  };
 };
 
 export const checkAuthTimeout = (expirationTime) => {
@@ -80,94 +91,102 @@ export const checkAuthTimeout = (expirationTime) => {
     };
 };
 
-export const addUserOnSignUp = (localId,fullName, email, phoneNumber, userType) => {
+export const eduvedaSignUp = (fullName , phoneNumber , roles , email , passwordOne) => {
   return dispatch => {
-    dispatch(addUserStart());
-    const userData = {
-      userId: localId,
-      name: fullName,
-      email: email,
-      phoneNumber: phoneNumber,
-      userType: userType
-    };
-
-    let dbUrl = "https://eduveda-b62d6.firebaseio.com/users.json";
-
-    axios.post(dbUrl, userData)
-        .then(response => {
-            console.log(response.data);
-            dispatch(getLoggedInUser(localId));
-          dispatch(addUserSuccess(response.data.name));
-        })
-        .catch(err => {
-          console.log(err.response.data);
-            dispatch(addUserFail(err.response.data.error));
+    dispatch(authStart());
+      firebase.auth().createUserWithEmailAndPassword(email, passwordOne).then(authUser => {
+        // Create a user in your Firebase realtime database
+        firebase.database().ref('users/' + authUser.user.uid).set({
+          fullName,
+          email,
+          phoneNumber,
+          roles
+        }, (error) => {
+          if (error) {
+            dispatch(addUserFail(error.response.data.error));
+          } else {
+            firebase.auth().currentUser.getIdTokenResult().then(response => {
+              const expirationDate = new Date(new Date().getTime() + new Date(response.expirationTime).getTime() * 1000);
+              localStorage.setItem('token', response.token);
+              localStorage.setItem('expirationDate', expirationDate);
+              localStorage.setItem('userId', authUser.user.uid);
+              dispatch(authSuccess(response.token,firebase.auth().currentUser.uid));
+              //dispatch(checkAuthTimeout(new Date(response.expirationTime).getTime()));
+            })
+            dispatch(getLoggedInUser(authUser.user.uid));
+            dispatch(addUserSuccess(fullName));
+            dispatch(showLoginForm(false,false));
+          }
         });
-      };
-};
+      }).then(() => {
+        return firebase.auth().currentUser.sendEmailVerification();
+      }).catch(error => {
+        console.log("Error on SignUp: "+JSON.stringify(error));
+        //dispatch(authFail(error.response.data.error));
+        /*if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+          error.message = ERROR_MSG_ACCOUNT_EXISTS;
+        }*/
+      });
+  }
+}
+
+export const eduvedaSignIn = (email, password) => {
+  return dispatch => {
+    firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+      firebase.auth().currentUser.getIdTokenResult().then(response => {
+        console.log("Expiration Time: "+response.expirationTime);
+
+        const expirationDate = new Date(new Date().getTime() + new Date(response.expirationTime).getTime() * 1000);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('expirationDate', expirationDate);
+        localStorage.setItem('userId', firebase.auth().currentUser.uid);
+        dispatch(authSuccess(response.token,firebase.auth().currentUser.uid));
+        //dispatch(checkAuthTimeout(new Date(response.expirationTime).getTime()));
+      })
+      dispatch(getLoggedInUser(firebase.auth().currentUser.uid));
+      dispatch(showLoginForm(false,false));
+    }).catch(error => {
+      console.log("Error on SignIn: "+JSON.stringify(error));
+          //this.setState({ error });
+    });
+  }
+}
 
 export const getLoggedInUser = (localId) => {
   return dispatch => {
     dispatch(getUserDetailsStart());
-    const queryParam = '?userId=' + localId;
-    let dbUrl = "https://eduveda-b62d6.firebaseio.com/users.json"+ queryParam;
-    console.log("Get LoggedIn User query: "+ dbUrl);
-
-    axios.get(dbUrl)
-        .then(response => {
-            console.log(response.data);
-            let user = {};
-            for(let key in response.data){
-              if(response.data[key].userId === localId) {
-                user = {
-                  ...response.data[key],
-                };
-              }
-            }
-            dispatch(getUserDetailsSuccess(user));
-        })
-        .catch(err => {
-          console.log(err.response.data);
-          dispatch(getUserDetailsFail(err.response.data.error));
-        });
+    firebase.database().ref('/users/' + localId).once('value').then((user) => {
+      const userData = user.val();
+      //dispatch(isBirthdayToday(userData));
+      dispatch(getUserDetailsSuccess(userData));
+    }).catch(err => {
+      console.log("Error");
+      //dispatch(getUserDetailsFail(err.response.data.error));
+    });
   };
 };
 
-export const auth = ( fullName, phoneNumber, userType,email, password, isSignup) => {
-  console.log(email);
-    return dispatch => {
-        dispatch(authStart());
-        const authData = {
-            email: email,
-            password: password,
-            returnSecureToken: true
-        };
 
-        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBc97fC5mzrhhvHnHVFwTOPpJohS_jkimo';
-        if (!isSignup) {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBc97fC5mzrhhvHnHVFwTOPpJohS_jkimo';
-        }
+export const showSurpriseForm = (showBdaySurprise,isBdayToday) => {
+  return {
+    type: actionTypes.SHOW_BDAY_SURPRISE,
+    showSurprise: showBdaySurprise,
+    isBdayToday : isBirthdayToday
+  };
+};
 
-        axios.post(url, authData)
-            .then(response => {
-                const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
-                localStorage.setItem('token', response.data.idToken);
-                localStorage.setItem('expirationDate', expirationDate);
-                localStorage.setItem('userId', response.data.localId);
-                dispatch(authSuccess(response.data.idToken, response.data.localId));
-                dispatch(checkAuthTimeout(response.data.expiresIn));
-                if(isSignup){
-                  dispatch(addUserOnSignUp(response.data.localId,fullName, email, phoneNumber, userType));
-                }
-                else {
-                  dispatch(getLoggedInUser(response.data.localId));
-                }
-                dispatch(showLoginForm(false,false));
-            })
-            .catch(err => {
-                dispatch(authFail(err.response.data.error));
-            });
-    };
+export const isBirthdayToday = (user) =>{
+  return dispatch => {
+    let todaysDate = moment(new Date()).format("DD-MM");
+    let userDob = moment(user.dob).format("MM-DD");
+
+    if(todaysDate === userDob) {
+      dispatch(showSurpriseForm(true,true));
+    }
+    else {
+      dispatch(showSurpriseForm(false,false));
+    }
+  };
 };
 
 export const showLoginForm = (showLogin,showSignup) => {
@@ -202,4 +221,35 @@ export const authCheckState = () => {
             }
         }
     };
+};
+
+export const startGoogleLogin = () => {
+  return dispatch => {
+		return firebase.auth().signInWithPopup(googleAuthProvider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      console.log(JSON.stringify(user));
+      const userData = {
+        userId: user.uid,
+        fullName: user.displayName,
+        email: user.email,
+        roles: 'student'
+      };
+      dispatch(getUserDetailsSuccess(userData));
+      dispatch(authSuccess(token, user.uid));
+      dispatch(showLoginForm(false,false));
+      // ...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+	};
 };
