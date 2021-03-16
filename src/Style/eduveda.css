@@ -52,3 +52,64 @@ input:hover,
 .login-methods {
   margin-left: 68px;
 }
+
+.aboutEvuVeda-Text {
+  padding-top: 10px;
+  color: white;
+  font-family: sans-serif;
+  margin-left: 45px;
+  margin-right: 20px;
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+}
+
+.dont-have-acct {
+  color: white;
+}
+
+
+* {box-sizing: border-box;}
+
+/* Style the input container */
+.input-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Style the form icons */
+.icon {
+  padding: 10px;
+  background: dodgerblue;
+  color: white;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Style the input fields */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+}
+
+.input-field:focus {
+  border: 2px solid dodgerblue;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: dodgerblue;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}
