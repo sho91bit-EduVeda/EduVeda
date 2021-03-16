@@ -4,7 +4,8 @@ import './Modal.css';
 import Wrapper from '../../../hoc/Wrapper';
 import Backdrop from '../Backdrop/Backdrop';
 
-const modal = ( props ) => (
+const modal = ( props ) => {
+  return (
     <Wrapper>
         <Backdrop show={props.show} clicked={props.modalClosed} />
         <div
@@ -16,6 +17,6 @@ const modal = ( props ) => (
             {props.children}
         </div>
     </Wrapper>
-);
+)};
 
 export default modal;

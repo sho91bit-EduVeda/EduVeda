@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom"; // eslint-disable-line
-import { Provider } from "react-redux"; // eslint-disable-line
 import { addLocaleData, IntlProvider } from "react-intl";
 import appLocaleDataEn from "react-intl/locale-data/en";
 import enMessages from "./../../Locale/en.json"; //custom text

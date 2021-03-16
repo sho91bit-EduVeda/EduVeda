@@ -15,7 +15,7 @@ const footer = (props) => {
               <div className="row">
                   <div className="col-xl-4 col-md-6 col-lg-4">
                       <div className="footer_widget">
-                      <Logo altVal="footer_logo" logoPath={eduvedaLogo} id="footer_logo"/>
+                      <Logo altVal="eduvedaLogoHeader" logoPath={eduvedaLogo} id="footer_logo"/>
                           <p>
                               Firmament morning sixth subdue darkness creeping gathered divide our let god moving.
                               Moving in fourth air night bring upon it beast let you dominion likeness open place day
