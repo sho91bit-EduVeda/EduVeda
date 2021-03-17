@@ -26,12 +26,12 @@
     "eduveda-signin-display-msg": "आपको एक हैप्पी लर्निंग की कामना...",
     "SignUp": "साइन अप करें",
     "Registration":"पंजीकरण",
-    "firstName-placeholder": "प्रथम नाम दर्ज करें",
-    "lastName-placeholder": "अंतिम नाम दर्ज करो",
+    "firstName-placeholder": "प्रथम नाम",
+    "lastName-placeholder": "अंतिम नाम",
     "email-placeholder": "ईमेल दर्ज करें",
     "pwd-placeholder": "कुंजिका",
     "conf-pwd-placeholder": "पासवर्ड की पुष्टि कीजिये",
-    "phoneNumber-placeholder": "फोन नंबर दर्ज",
+    "phoneNumber-placeholder": "फ़ोन नंबर",
     "DontHaveAnAcct": "खाता नहीं है",
     "AboutAreaH3":"20 पाठ्यक्रमों से 7000 से अधिक ट्यूटोरियल",
     "EnrollCourse":"एक पाठ्यक्रम का नामांकन करें",
@@ -69,5 +69,8 @@
     "account":"खाता",
     "profile":"प्रोफ़ाइल",
     "logout":"लॉग आउट",
-    "notifications": "सूचनाएं"
+    "notifications": "सूचनाएं",
+    "fullName": "Full Name",
+    "Male": "पुरुष",
+    "Female":"महिला"
 }

@@ -13,13 +13,15 @@ class EduVedaServices {
         });
     }
 
-    async createUserRecordOnSignUp(uid, fullName , email, phoneNumber, roles, LoginMethod) {
+    async createUserRecordOnSignUp(uid, fullName , email, phoneNumber, roles, LoginMethod,photoURL,gender) {
         firebase.database().ref('users/' + uid).set({
             fullName,
             email,
             phoneNumber,
             roles,
-            LoginMethod
+            LoginMethod,
+            photoURL,
+            gender
           }, (error) => {
             if (error) {
               // The write failed...
@@ -30,6 +32,25 @@ class EduVedaServices {
             }
         });
     }
+
+    async updateUserProfile(uid, fullName,email, phoneNumber,mobileNumber,address, gender) {
+      firebase.database().ref('users/' + uid).set({
+          fullName: fullName,
+          email: email,
+          phoneNumber : phoneNumber,
+          gender : gender,
+          mobileNumber: mobileNumber,
+          address: address
+        }, (error) => {
+          if (error) {
+            // The write failed...
+            console.log(error)
+
+          } else {
+              console.log("Record Updated");
+          }
+      });
+  }
 
     async onLogout() {
         return firebase.auth().signOut().then(() => {
@@ -67,13 +88,15 @@ class EduVedaServices {
             //var token = result.credential.accessToken;
             // The signed-in user info.
             var user = result.user;
+            console.log("Response : "+JSON.stringify(user));
             
             const userData = {
               userId: user.providerData[0].uid,
               fullName: user.displayName,
               email: user.email,
               roles: 'student',
-              phoneNumber : user.phoneNumber
+              phoneNumber : user.phoneNumber,
+              photoUrl : user.photoURL
             };
             
             return Promise.resolve(userData);

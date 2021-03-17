@@ -16,7 +16,8 @@ class Authentication extends Component {
 			email : '',
 			password : '',
 			confirmPassword : '',
-			userType : ''
+			userType : 'Student',
+			gender :'Male'
 		}	
 	}
 
@@ -43,7 +44,7 @@ class Authentication extends Component {
 
 	submitSignUpHandler = (event) => {
 		event.preventDefault();
-		this.props.eduvedaSignUpHandler(this.state.firstName + " " + this.state.lastName, this.state.userType, this.state.email, this.state.phoneNumber, this.state.password);
+		this.props.eduvedaSignUpHandler(this.state.firstName + " " + this.state.lastName, this.state.userType, this.state.email, this.state.phoneNumber, this.state.password,this.state.gender);
 	}
 
 	submitForgotPwdRequest = (event) => {
@@ -125,13 +126,18 @@ class Authentication extends Component {
                     </div>
                     
                     <div className="col-xl-12 col-md-12">
-                      <select id="userType" style = {{width : '47%', float : 'left', marginTop : '5px'}} value={this.state.userType} onChange={( event ) => this.inputChangedHandler(event, "userType")}>
-                        <option value="student">{this.props.intl.formatMessage({ id: "Student" })}</option>
-                        <option value="faculty">{this.props.intl.formatMessage({ id: "Faculty" })}</option>
-                        <option value="admin">{this.props.intl.formatMessage({ id: "Admin" })}</option>
+                      <select id="userType" style = {{width : '30%', float : 'left', marginTop : '5px'}} value={this.state.userType} onChange={( event ) => this.inputChangedHandler(event, "userType")}>
+                        <option value="Student">{this.props.intl.formatMessage({ id: "Student" })}</option>
+                        <option value="Faculty">{this.props.intl.formatMessage({ id: "Faculty" })}</option>
+                        <option value="Admin">{this.props.intl.formatMessage({ id: "Admin" })}</option>
                       </select>
-					  <label value="" style = {{width : '6%'}}/>
-					  <input type="tel"style = {{width : '47%'}} id="phoneNumber" name="phoneNumber" value={this.state.phoneNumber} placeholder={this.props.intl.formatMessage({ id: "phoneNumber-placeholder" })} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={( event ) => this.inputChangedHandler(event, "phoneNumber")}/>
+					  <label value="" style = {{width : '5%'}}/>
+					  <select id="gender" style = {{width : '26%', marginTop : '5px'}} value={this.state.gender} onChange={( event ) => this.inputChangedHandler(event, "gender")}>
+                        <option value="Male">{this.props.intl.formatMessage({ id: "Male" })}</option>
+                        <option value="Female">{this.props.intl.formatMessage({ id: "Female" })}</option>
+                      </select>
+					  <label value="" style = {{width : '5%'}}/>
+					  <input type="tel"style = {{width : '34%'}} id="phoneNumber" name="phoneNumber" value={this.state.phoneNumber} placeholder={this.props.intl.formatMessage({ id: "phoneNumber-placeholder" })} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={( event ) => this.inputChangedHandler(event, "phoneNumber")}/>
                     </div>
                     <div className="col-xl-12 col-md-12">
                       <input type="password" placeholder={this.props.intl.formatMessage({ id: "pwd-placeholder" })} value={this.state.password} onChange={( event ) => this.inputChangedHandler(event, "password")}/>
@@ -139,6 +145,9 @@ class Authentication extends Component {
                     <div className="col-xl-12 col-md-12">
                       <input type="password" placeholder={this.props.intl.formatMessage({ id: "conf-pwd-placeholder" })} value={this.state.confirmPassword} onChange={( event ) => this.inputChangedHandler(event, "confirmPassword")}/>
                     </div>
+					<div className="col-xl-11 col-md-11">
+							{this.props.validationError.hasLoginError ? <label style={{color: 'red',marginLeft : '5px'}}>{this.props.intl.formatMessage({ id: this.props.validationError.errorCode })}</label> : ''}
+						</div>
                     <div className="col-xl-12">
                       <button type="submit" className="boxed_btn_orange">
                         {this.props.intl.formatMessage({ id: "SignUp" })}

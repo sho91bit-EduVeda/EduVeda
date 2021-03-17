@@ -31,7 +31,7 @@
     "email-placeholder": "Enter Email",
     "pwd-placeholder": "Password",
     "conf-pwd-placeholder": "Confirm Password",
-    "phoneNumber-placeholder": "Enter Phone Number",
+    "phoneNumber-placeholder": "Enter Phone",
     "DontHaveAnAcct": "New to EduVeda... Don’t have an account",
     "AboutAreaH3":"Over 7000 Tutorials from 20 Courses",
     "EnrollCourse":"Enroll a Course",
@@ -69,5 +69,8 @@
     "account":"Account",
     "profile":"Profile",
     "logout":"Log Out",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "fullName": "Full Name",
+    "Male": "Male",
+    "Female":"Female"
 }

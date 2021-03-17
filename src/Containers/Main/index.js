@@ -22,6 +22,7 @@ class Main extends Component{
 
   state = {
     user : '',
+    userUid : '',
     error : {
       hasLoginError : false,
       errorCode : ''
@@ -34,26 +35,35 @@ class Main extends Component{
     hasNotifications : false
   }
 
-  signUpHandler = (fullName , roles , email , phoneNumber, passwordOne) => {
+  signUpHandler = (fullName , roles , email , phoneNumber, passwordOne,gender) => {
     EduVedaServices.eduvedaSignUpUsingEmail(email,passwordOne).then(authUser => {
-      EduVedaServices.createUserRecordOnSignUp(authUser.uid, fullName, email.trim(), phoneNumber, roles,"EmailLogin");
+      EduVedaServices.createUserRecordOnSignUp(authUser.uid, fullName, email.trim(), phoneNumber, roles,"EmailLogin",null,gender);
       EduVedaServices.getLoggedInUser(authUser.uid).then(user => {
         this.setState({
           user,
+          userUid : authUser.uid,
           showLogin : false
         });
       });
+    }).catch(error => {
+      let errorCode = error.code;
+      this.setState({
+        error : {
+          hasLoginError : true,
+          errorCode : errorCode
+        } 
+      });
     });
+
   }
 
   logInHandler = (email , password) => {
 		EduVedaServices.eduvedaLogIn(email, password).then(response => {
 			EduVedaServices.getLoggedInUser(response.uid).then(user => {
-				this.setState({user});
+				this.setState({user , userUid: response.uid});
         this.closeLoginHandler();
 			});
 		}).catch(error => {
-      console.log("LogIn error: "+JSON.stringify(error));
       let errorCode = error.code;
       this.setState({
         error : {
@@ -67,9 +77,9 @@ class Main extends Component{
 
   providerLoginHandler = (authProvider) => {
     EduVedaServices.eduvedaLogInWithProvider(authProvider).then(providerResponse => {
-        EduVedaServices.createUserRecordOnSignUp(providerResponse.userId, providerResponse.fullName, providerResponse.email.trim(), providerResponse.phoneNumber, providerResponse.roles,"ProviderLogin");
+        EduVedaServices.createUserRecordOnSignUp(providerResponse.userId, providerResponse.fullName, providerResponse.email.trim(), providerResponse.phoneNumber, providerResponse.roles,"ProviderLogin",providerResponse.photoUrl);
         EduVedaServices.getLoggedInUser(providerResponse.userId).then(user => {
-          this.setState({user});
+          this.setState({user, userUid:providerResponse.userId });
           this.closeLoginHandler();
         });
     }).catch(error => {
@@ -89,11 +99,11 @@ class Main extends Component{
       if(authUser) {
         if(authUser.providerData[0].providerId === 'google.com' || authUser.providerData[0].providerId === 'facebook.com') {
           EduVedaServices.getLoggedInUser(authUser.providerData[0].uid).then(user => {
-            this.setState({user});
+            this.setState({user, userUid: authUser.providerData[0].uid});
           });
         } else {
           EduVedaServices.getLoggedInUser(authUser.uid).then(user => {
-            this.setState({user});
+            this.setState({user,  userUid: authUser.uid});
           });
         }
         
@@ -192,6 +202,21 @@ class Main extends Component{
     
   }
 
+  updateProfileHandler = (uid, fullName ,email, phoneNumber,mobileNumber,address, gender) => {
+    EduVedaServices.updateUserProfile(uid, fullName ,email, phoneNumber,mobileNumber,address,gender).then(response => {
+      EduVedaServices.getLoggedInUser(uid).then(user => {
+        this.setState({user,  userUid: uid});
+      });
+    }).catch(error => {
+      this.setState({
+        error: {
+          hasLoginError : true,
+          errorCode : "update-profile-error"
+        }
+      });
+    });
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -207,10 +232,10 @@ class Main extends Component{
           </Wrapper>
         </Route>
         <Route exact path="/profile">
-            <Profile/>
+            <Profile loggedInUserUid={this.state.userUid} loggedInUser={this.state.user}  onUpdateProfile ={this.updateProfileHandler}/>
         </Route>
         <Footer />
-        <Modal show={this.state.showLogin} modalClosed={this.closeLoginHandler} >
+        <Modal show={this.state.showLogin} modalClosed={this.closeLoginHandler}>
           <Authentication resetFields={this.state.clearFields} hasSuccessMsg={this.state.successMessageFlag} validationError={this.state.error} eduvedaResetPwdHandler={this.resetPwdHandler} eduvedaSignUpHandler={this.signUpHandler} eduvedalogInHandler={this.logInHandler} onProviderLogin={this.providerLoginHandler} showSignUp={this.state.showSignUp} onSignUpLinkClick={this.goToSignUp} onBackToLogin={this.goToLogin} onForgotPassword={this.goToForgotPassword} showForgotPassword={this.state.showForgotPassword} />
         </Modal>
       </BrowserRouter>
