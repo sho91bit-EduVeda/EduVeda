@@ -9,7 +9,7 @@ import eduvedaLogo from "./../../img/form-logo.png";
 const footer = (props) => {
   return (
     <Wrapper>
-    <footer className="footer footer_bg_1">
+    <footer className="footer slider_bg_new overlay2">
       <div className="footer_top">
           <div className="container">
               <div className="row">

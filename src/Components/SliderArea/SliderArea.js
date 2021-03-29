@@ -13,7 +13,7 @@ const sliderArea = (props) => {
   return (
     <Wrapper>
     <div className="slider_area">
-      <div className="single_slider d-flex align-items-center justify-content-center slider_bg_1"> 
+      <div className="single_slider d-flex align-items-center justify-content-center slider_bg_new overlay2"> 
           <div className="container">
             <div className="row align-items-center justify-content-center">
             <div className="col-xl-6 col-md-6">
@@ -22,7 +22,7 @@ const sliderArea = (props) => {
             <div className="col-xl-6 col-md-6">
               <div className="slider_info">
                 <h3>
-                  {user && user.fullName != null ? props.intl.formatMessage({ id: "hi" })+user.fullName : props.intl.formatMessage({ id: "hi-guest" })}
+                  {user && user.fullName ? props.intl.formatMessage({ id: "hi" })+user.fullName : props.intl.formatMessage({ id: "hi-guest" })}
                   <br></br>
                   <span>{props.intl.formatMessage({ id: "sliderAreaTitle" })}</span>
                 </h3>

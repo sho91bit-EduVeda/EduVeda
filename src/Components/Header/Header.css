@@ -7,3 +7,16 @@
   left: 100%;
   margin-top: -1px;
 }
+
+
+@media (max-width: 1000px) {
+  .logo-align {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .logo-mobile-view {
+    margin-left: 20%;
+  }
+}

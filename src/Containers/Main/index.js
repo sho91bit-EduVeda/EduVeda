@@ -1,14 +1,18 @@
-import React,{Component} from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import firebase from './../../Firebase/index';
 
 import Wrapper from './../../hoc/Wrapper';
 
 import Modal from '../../Components/UI/Modal/Modal';
 import Authentication from '../../Components/Login/Authentication';
+import AuthMobile from '../../Components/Login/AuthMobile';
 import Header from '../../Components/Header/Header';
-import Profile from '../../Components/Profile/profile';
+import Profile from '../../Components/AccountOptions/profile';
+import Notification from '../../Components/AccountOptions/notifications';
 import SliderArea from '../../Components/SliderArea/SliderArea';
+import ContactUs from '../../Components/SliderArea/ContactUs';
+import AboutUs from '../../Components/SliderArea/AboutUs';
 import AboutArea from '../../Components/AboutArea/AboutArea';
 import PopularCourses from '../../Components/Courses/PopularCourses';
 import Testimonials from '../../Components/Testimonial/Testimonials';
@@ -18,119 +22,146 @@ import Footer from '../../Components/Footer/Footer';
 
 import EduVedaServices from './../../Services/EduVedaServices';
 
-class Main extends Component{
+class Main extends Component {
 
   state = {
-    user : '',
-    userUid : '',
-    error : {
-      hasLoginError : false,
-      errorCode : ''
+    user: '',
+    userUid: '',
+    error: {
+      hasLoginError: false,
+      errorCode: ''
     },
     successMessageFlag: false,
-    showLogin : false,
-    clearFields : false,
-    showSignUp : false,
-    showForgotPassword : false,
-    hasNotifications : false
+    showLogin: false,
+    clearFields: false,
+    showSignUp: false,
+    showForgotPassword: false,
+    hasNotifications: false,
+    notifications: [],
+    isUserSubscribed: false
   }
 
-  signUpHandler = (fullName , roles , email , phoneNumber, passwordOne,gender) => {
-    EduVedaServices.eduvedaSignUpUsingEmail(email,passwordOne).then(authUser => {
-      EduVedaServices.createUserRecordOnSignUp(authUser.uid, fullName, email.trim(), phoneNumber, roles,"EmailLogin",null,gender);
+  signUpHandler = (userData) => {
+    console.log(JSON.stringify(userData));
+    EduVedaServices.eduvedaSignUpUsingEmail(userData.email, userData.passwordOne).then(authUser => {
+      EduVedaServices.createUserRecordOnSignUp(authUser.uid, userData);
       EduVedaServices.getLoggedInUser(authUser.uid).then(user => {
         this.setState({
           user,
-          userUid : authUser.uid,
-          showLogin : false
+          userUid: authUser.uid,
+          showLogin: false
         });
+        window.location.pathname === "/auth" ? window.location.pathname = "/" : this.closeLoginHandler();
       });
     }).catch(error => {
       let errorCode = error.code;
       this.setState({
-        error : {
-          hasLoginError : true,
-          errorCode : errorCode
-        } 
+        error: {
+          hasLoginError: true,
+          errorCode: errorCode
+        }
       });
     });
 
   }
 
-  logInHandler = (email , password) => {
-		EduVedaServices.eduvedaLogIn(email, password).then(response => {
-			EduVedaServices.getLoggedInUser(response.uid).then(user => {
-				this.setState({user , userUid: response.uid});
-        this.closeLoginHandler();
-			});
-		}).catch(error => {
-      let errorCode = error.code;
+  fetchNotificationsFromEduVeda = () => {
+    EduVedaServices.getAllNotifications().then(response => {
       this.setState({
-        error : {
-          hasLoginError : true,
-          errorCode : errorCode
-        } 
+        notifications: response
       });
     });
-    
-	}
+  }
+
+  logInHandler = (email, password) => {
+    EduVedaServices.eduvedaLogIn(email, password).then(response => {
+      EduVedaServices.getLoggedInUser(response.uid).then(user => {
+        this.fetchNotificationsFromEduVeda();
+        this.setState({ user, userUid: response.uid });
+        window.location.pathname === "/auth" ? window.location.pathname = "/" : this.closeLoginHandler();
+      });
+    }).catch(error => {
+      let errorCode = error.code;
+      this.setState({
+        error: {
+          hasLoginError: true,
+          errorCode: errorCode
+        }
+      });
+    });
+
+  }
 
   providerLoginHandler = (authProvider) => {
     EduVedaServices.eduvedaLogInWithProvider(authProvider).then(providerResponse => {
-        EduVedaServices.createUserRecordOnSignUp(providerResponse.userId, providerResponse.fullName, providerResponse.email.trim(), providerResponse.phoneNumber, providerResponse.roles,"ProviderLogin",providerResponse.photoUrl);
+      EduVedaServices.getLoggedInUser(providerResponse.userId).then(user => {
+        this.fetchNotificationsFromEduVeda();
+        this.setState({ user, userUid: providerResponse.userId });
+      }).catch(error => {
+        console.log("User not found");
+        const userData = {
+          fullName: providerResponse.fullName,
+          email: providerResponse.email.trim(),
+          loginMethod: "ProviderLogin",
+          photoURL: providerResponse.photoURL
+        };
+        EduVedaServices.createUserRecordOnSignUp(providerResponse.userId, userData);
         EduVedaServices.getLoggedInUser(providerResponse.userId).then(user => {
-          this.setState({user, userUid:providerResponse.userId });
-          this.closeLoginHandler();
+          this.fetchNotificationsFromEduVeda();
+          this.setState({ user, userUid: providerResponse.userId });
         });
+      });
+      this.closeLoginHandler();
     }).catch(error => {
-      console.log("Provider Error: "+error);
+      console.log("Provider Error: " + error);
       let errorCode = error.code;
       this.setState({
-        error : {
-          hasLoginError : true,
-          errorCode : errorCode
-        } 
+        error: {
+          hasLoginError: true,
+          errorCode: errorCode
+        }
       });
     });
   }
 
   authListener = () => {
     firebase.auth().onAuthStateChanged(authUser => {
-      if(authUser) {
-        if(authUser.providerData[0].providerId === 'google.com' || authUser.providerData[0].providerId === 'facebook.com') {
+      if (authUser) {
+        if (authUser.providerData[0].providerId === 'google.com' || authUser.providerData[0].providerId === 'facebook.com') {
           EduVedaServices.getLoggedInUser(authUser.providerData[0].uid).then(user => {
-            this.setState({user, userUid: authUser.providerData[0].uid});
+            this.fetchNotificationsFromEduVeda();
+            this.setState({ user, userUid: authUser.providerData[0].uid });
           });
         } else {
           EduVedaServices.getLoggedInUser(authUser.uid).then(user => {
-            this.setState({user,  userUid: authUser.uid});
+            this.setState({ user, userUid: authUser.uid });
           });
         }
-        
+
       }
     });
   }
 
-  componentDidMount () {
-      this.authListener();
-    }
+  componentDidMount() {
+    this.authListener();
+  }
 
   showLoginForm = () => {
     this.setState({
-      showLogin : true,
-      clearFields : true
+      showLogin: true,
+      clearFields: true
     });
   }
 
   closeLoginHandler = () => {
     this.setState({
-      error : {
-        hasLoginError : false,
-        errorCode : ''
+      error: {
+        hasLoginError: false,
+        errorCode: ''
       },
-      showLogin : false,
-      clearFields : false,
-      showSignUp : false
+      showLogin: false,
+      clearFields: false,
+      showSignUp: false
     });
   }
 
@@ -155,63 +186,76 @@ class Main extends Component{
   };
 
   goToSignUp = () => {
-		this.setState({
-      clearFields : true,
-			showSignUp : true
-		});
-	}
+    this.setState({
+      showSignUp: true,
+      error: {
+        hasLoginError: '',
+        errorCode: ''
+      }
+    });
+  }
 
-	goToLogin = () => {
-		this.setState({
-      clearFields : true,
-			showSignUp : false,
-      showForgotPassword : false
-		});
-	}
+  goToLogin = () => {
+    this.setState({
+      showSignUp: false,
+      showForgotPassword: false,
+      error: {
+        hasLoginError: '',
+        errorCode: ''
+      }
+    });
+  }
 
   goToForgotPassword = () => {
+    console.log("Hi");
     this.setState({
-      clearFields : true,
-			showSignUp : false,
-      showForgotPassword : true
-		});
+      showSignUp: false,
+      showForgotPassword: true,
+      error: {
+        hasLoginError: '',
+        errorCode: ''
+      }
+    });
   }
 
   resetPwdHandler = (email) => {
     EduVedaServices.fetchSignInMethodUsingEmail(email).then(loginProvider => {
-      console.log("loginProvider: "+JSON.stringify(loginProvider));
-      if(loginProvider === "password") {
+      if (loginProvider === "password") {
         EduVedaServices.eduvedaResetPassword(email).then(response => {
-          console.log("Reset Password Response: " + JSON.stringify(response));
           this.setState({
-            successMessageFlag : true
+            successMessageFlag: true
           });
         }).catch(error => {
-          console.log("Reset Password Error: " + JSON.stringify(error));
+          this.setState({
+            error: {
+              hasLoginError: true,
+              errorCode: error.code
+            }
+          });
         });
-      } else{
+      } else {
         this.setState({
           error: {
-            hasLoginError : true,
-            errorCode : "provider-reset-pwd"
+            hasLoginError: true,
+            errorCode: "provider-reset-pwd"
           }
         });
       }
     });
-    
-    
+
+
   }
 
-  updateProfileHandler = (uid, fullName ,email, phoneNumber,mobileNumber,address, gender) => {
-    EduVedaServices.updateUserProfile(uid, fullName ,email, phoneNumber,mobileNumber,address,gender).then(response => {
+  updateProfileHandler = (uid, userData) => {
+    EduVedaServices.updateUserProfile(uid, userData).then(response => {
       EduVedaServices.getLoggedInUser(uid).then(user => {
-        this.setState({user,  userUid: uid});
+        this.setState({ user, userUid: uid });
       });
     }).catch(error => {
       this.setState({
         error: {
-          hasLoginError : true,
-          errorCode : "update-profile-error"
+          hasLoginError: true,
+          errorCode: "update-profile-error"
         }
       });
     });
@@ -220,7 +264,14 @@ class Main extends Component{
   render() {
     return (
       <BrowserRouter>
-        <Header hasNotificationFlag={this.state.hasNotifications} user={this.state.user} onLangChange={this.changeLanguage} eduLang={this.getLinkName()} onLoginClick={this.showLoginForm} />
+        <Header
+          isUserSubscribed={this.state.isUserSubscribed}
+          user={this.state.user}
+          onLangChange={this.changeLanguage}
+          eduLang={this.getLinkName()}
+          onLoginClick={this.showLoginForm}
+        />
+
         <Route exact path="/">
           <Wrapper>
             <SliderArea loggedInUser={this.state.user} />
@@ -231,12 +282,45 @@ class Main extends Component{
             <Blogs />
           </Wrapper>
         </Route>
+        <Route exact path="/about-us">
+          <AboutUs />
+        </Route>
+        <Route exact path="/contact-us">
+          <ContactUs userUid={this.state.userUid} />
+        </Route>
         <Route exact path="/profile">
-            <Profile loggedInUserUid={this.state.userUid} loggedInUser={this.state.user}  onUpdateProfile ={this.updateProfileHandler}/>
+          <Profile loggedInUserUid={this.state.userUid} loggedInUser={this.state.user} onUpdateProfile={this.updateProfileHandler} />
+        </Route>
+        <Route exact path="/notifications">
+          <Notification user={this.state.user} eduvedaNotifications={this.state.notifications} />
+        </Route>
+        <Route exact path="/auth">
+          <AuthMobile eduvedalogInHandler={this.logInHandler} 
+          showSignUp={this.state.showSignUp}
+          onBackToLogin={this.goToLogin}
+          onForgotPassword={this.goToForgotPassword}
+          showForgotPassword={this.state.showForgotPassword} 
+          eduvedaResetPwdHandler={this.resetPwdHandler}
+          eduvedaSignUpHandler={this.signUpHandler}
+          hasSuccessMsg={this.state.successMessageFlag}
+          validationError={this.state.error}
+          onSignUpLinkClick={this.goToSignUp}/>
         </Route>
         <Footer />
         <Modal show={this.state.showLogin} modalClosed={this.closeLoginHandler}>
-          <Authentication resetFields={this.state.clearFields} hasSuccessMsg={this.state.successMessageFlag} validationError={this.state.error} eduvedaResetPwdHandler={this.resetPwdHandler} eduvedaSignUpHandler={this.signUpHandler} eduvedalogInHandler={this.logInHandler} onProviderLogin={this.providerLoginHandler} showSignUp={this.state.showSignUp} onSignUpLinkClick={this.goToSignUp} onBackToLogin={this.goToLogin} onForgotPassword={this.goToForgotPassword} showForgotPassword={this.state.showForgotPassword} />
+          <Authentication
+            resetFields={this.state.clearFields}
+            hasSuccessMsg={this.state.successMessageFlag}
+            validationError={this.state.error}
+            eduvedaResetPwdHandler={this.resetPwdHandler}
+            eduvedaSignUpHandler={this.signUpHandler}
+            eduvedalogInHandler={this.logInHandler}
+            onProviderLogin={this.providerLoginHandler}
+            showSignUp={this.state.showSignUp}
+            onSignUpLinkClick={this.goToSignUp}
+            onBackToLogin={this.goToLogin}
+            onForgotPassword={this.goToForgotPassword}
+            showForgotPassword={this.state.showForgotPassword} />
         </Modal>
       </BrowserRouter>
     );

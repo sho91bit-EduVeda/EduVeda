@@ -16,13 +16,13 @@
 /* line 22, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_extend.scss */
 .header-area .main-header-area.sticky {
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#a64eee+0,3c35ce+100 */
-  background: #a64eee;
+  background: #4D608C;
   /* Old browsers */
-  background: -moz-linear-gradient(left, #a64eee 0%, #3c35ce 100%);
+  background: -moz-linear-gradient(left, #4D608C 0%, #1E0C3E 100%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, #a64eee 0%, #3c35ce 100%);
+  background: -webkit-linear-gradient(left, #4D608C 0%, #1E0C3E 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, #a64eee 0%, #3c35ce 100%);
+  background: linear-gradient(to right, #4D608C 0%, #1E0C3E 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a64eee', endColorstr='#3c35ce',GradientType=1 );
   /* IE6-9 */
@@ -1889,6 +1889,18 @@ h3 {
   background-image: url(../img/banner/bradcam.png);
 }
 
+.contactUs_bg {
+  background-image: url(../img/banner/contactUsBanner.jpg);
+}
+
+.aboutUs_bg {
+  background-image: url(../img/banner/aboutUsBanner.jpg);
+}
+
+.slider_bg_new {
+  background-image: url(../img/banner/sliderBanner.jpg);
+}
+
 /* line 4, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
 .breadcam_bg_2 {
   background-image: url(../img/banner/bradcam2.png);
@@ -2078,7 +2090,6 @@ h3 {
 
 /* line 121, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
 .popup_box {
-  background: #4B38D2;
   display: inline-block;
   width: 558px;
   padding: 60px 40px;
@@ -6714,12 +6725,15 @@ h6 {
 }
 
 .signUpMain-popupbox {
-  background: #4B38D2;
   display: inline-block;
   width: 1200px;
   padding: 60px 40px;
   border-radius: 5px;
   z-index: 9;
+  height: auto;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .signUpMain-col {

@@ -21,7 +21,7 @@
     "forgot-pwd": "पासवर्ड भूल गए?",
     "eduveda-welcome": "EDUVEDA में आपका स्वागत है!!",
     "eduveda-signup-text": "अपनी सीखने की यात्रा शुरू करने के लिए कृपया खुद को EduVeda में पंजीकृत करें...",
-    "back-to-login": "<- लॉगिन पर वापस जाएं",
+    "back-to-login": "लॉगिन पर वापस जाएं",
     "eduveda-signin-welcome-back": "अपने पसंदीदा शिक्षण मंच पर वापस स्वागत है!!",
     "eduveda-signin-display-msg": "आपको एक हैप्पी लर्निंग की कामना...",
     "SignUp": "साइन अप करें",
@@ -70,7 +70,15 @@
     "profile":"प्रोफ़ाइल",
     "logout":"लॉग आउट",
     "notifications": "सूचनाएं",
-    "fullName": "Full Name",
+    "fullName": "पूरा नाम :",
     "Male": "पुरुष",
-    "Female":"महिला"
+    "Female":"महिला",
+    "gender" : "लिंग :",
+    "email": "ईमेल :",
+    "phone": "फ़ोन :",
+    "mobile": "मोबाइल :",
+    "address":"पता :",
+    "editProfile":"प्संपादित करें",
+    "cancel": "रद्द करें",
+    "submit": "दर्ज करें"
 }

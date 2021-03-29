@@ -21,7 +21,7 @@
     "forgot-pwd": "Forgot Password?",
     "eduveda-welcome": "Welcome to EDUVEDA!!",
     "eduveda-signup-text": "To Start your learning journey please register yourself to EduVeda...",
-    "back-to-login": "<- Back to Log In",
+    "back-to-login": "Back to Log In",
     "eduveda-signin-welcome-back": "Welcome back to your favourite learning platform!!",
     "eduveda-signin-display-msg": "Wishing you a Happy Learning...",
     "SignUp": "Sign Up",
@@ -70,7 +70,15 @@
     "profile":"Profile",
     "logout":"Log Out",
     "notifications": "Notifications",
-    "fullName": "Full Name",
+    "fullName": "Full Name :",
     "Male": "Male",
-    "Female":"Female"
+    "Female":"Female",
+    "gender" : "Gender :",
+    "email": "Email :",
+    "phone": "Phone :",
+    "mobile": "Mobile :",
+    "address":"Address :" ,
+    "editProfile":"Edit",
+    "cancel": "Cancel",
+    "submit": "Submit"
 }

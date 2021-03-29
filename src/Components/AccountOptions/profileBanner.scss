@@ -1,0 +1,123 @@
+body {
+    background: #333;
+    font-family: Helvetica;
+  }
+  .container {
+    position: relative;
+    width: 828px;
+    height: 315px;
+    margin: auto;
+    margin-top: 2em;
+    
+    .logo {
+      position: absolute;
+      bottom: -30px;
+      width: 170px;
+      height: 170px;
+      left: 15px;
+      border: 1px solid #333;
+      background: white;
+      background-image: url(https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-1/p320x320/11427211_664730823660445_5008160565860538885_n.png?oh=e139eaf7797628639b291728d8c7a2a9&oe=57DC0F6D);
+      background-size: 95%;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 3px;
+    }
+    .visallo {
+        background-image: url(http://www.visallo.com/sites/default/files/logo_0.png);
+      position: absolute;
+      right: 30px;
+      top: 30px;
+      margin-left: -100px;
+      width: 200px;
+      height: 200px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      opacity: 0.9;
+    }
+    .tagline {
+      position: absolute;
+      right: 30px;
+      top: 70px;
+      // background: red;
+      // left: 50%;
+      // transform: translate(-50%,0);
+      width: 150px;
+      text-align: right;
+      color: white;
+      // white-space: nowrap;
+      opacity: 0.8;
+      text-rendering: optimizelegibility;
+      text-shadow: none;
+      line-height: 1.3em;
+      font-weight: normal;
+      font-size: 75%;
+        // color: #ec1c24;    
+      color: white;
+      span {
+        // color: white;
+      }
+    }
+    .title {
+      font-size: 140%;
+      position: absolute;
+      bottom: 0px;    
+      left: 195px;
+      color: white;
+      text-rendering: optimizelegibility;
+      text-shadow: rgba(0, 0, 0, 0.8) 0px 0px 3px;
+      div { font-weight: normal; font-size: 80%; }
+    }
+  }
+  .cover-photo {
+    // border: 1px solid #ccc;
+    // background: linear-gradient(bottom, black, white 170px);
+    
+    height: 315px;
+    .graph {
+      position: absolute;
+      margin: 0;
+      padding: 0;
+      bottom: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      // background: green;
+      &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      background: radial-gradient(ellipse 600px 300px at 50% 290px, rgba(0,0,0,0), rgba(0,0,0,0) 70%, #0088cc);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: .3;
+    }
+    }
+    .timeline {
+      list-style: none;
+      position: absolute;
+      margin: 0;
+      padding: 0;
+      bottom: 0;
+      width: 100%;
+      height: 115px;
+      background: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0));
+      display: flex;
+      align-items: flex-end;
+      li {
+        background: #ec1c24;
+        margin: 1px;
+        flex: 1 1;
+  
+      }
+    }
+  }
+  
+  // .logo, .title { display: none; }
+  // .tagline { display: none; }

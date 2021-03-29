@@ -17,7 +17,8 @@ class Authentication extends Component {
 			password : '',
 			confirmPassword : '',
 			userType : 'Student',
-			gender :'Male'
+			gender :'Male',
+			resetFields : false
 		}	
 	}
 
@@ -30,6 +31,29 @@ class Authentication extends Component {
 		  });
 		}
 	  }
+
+	  onBackToLogin = () => {
+		this.props.onBackToLogin();
+		this.setState({
+			email : '',
+			password : ''
+		});	
+	  }
+
+	onSignUpLinkClick = () => {
+		this.props.onSignUpLinkClick();
+		this.setState({
+			email : '',
+			password : ''
+		});	
+	}
+
+	onForgotPassword = () => {
+		this.props.onForgotPassword();
+		this.setState({
+			email : ''
+		});
+	}
 	
 	inputChangedHandler = (event, controlName) => {
 		this.setState({
@@ -44,7 +68,16 @@ class Authentication extends Component {
 
 	submitSignUpHandler = (event) => {
 		event.preventDefault();
-		this.props.eduvedaSignUpHandler(this.state.firstName + " " + this.state.lastName, this.state.userType, this.state.email, this.state.phoneNumber, this.state.password,this.state.gender);
+		const user = {
+			fullName : this.state.firstName + " " + this.state.lastName,
+			roles : this.state.userType,
+			email : this.state.email,
+			phoneNumber : this.state.phoneNumber,
+			passwordOne : this.state.password,
+			gender : this.state.gender
+
+		}
+		this.props.eduvedaSignUpHandler(user);
 	}
 
 	submitForgotPwdRequest = (event) => {
@@ -67,18 +100,22 @@ class Authentication extends Component {
 								onChange={(event) => this.inputChangedHandler(event, "email")}
 								onBlur={(event) => this.inputChangedHandler(event, "email")}
 								value={this.state.email}
+								pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+								required
 							/>
 						</div>
 						<div className="col-xl-12 col-md-12">
 							<input
-								type="text"
+								type="password"
 								name="password"
 								placeholder={this.props.intl.formatMessage({ id: "pwd-placeholder" })}
 								onChange={(event) => this.inputChangedHandler(event, "password")}
 								onBlur={(event) => this.inputChangedHandler(event, "password")}
 								value={this.state.password}
+								pattern=".{8,}"
+								required
 							/>
-							<Link to="" style={{color: 'white', float: 'left'}} onClick={this.props.onForgotPassword}>{this.props.intl.formatMessage({ id: "forgot-pwd" })}</Link>
+							<Link to="" style={{color: 'white', float: 'left'}} onClick={this.onForgotPassword}>{this.props.intl.formatMessage({ id: "forgot-pwd" })}</Link>
 						</div>
 						<div className="col-xl-11 col-md-11">
 							{this.props.validationError.hasLoginError ? <label style={{color: 'red',marginLeft : '5px'}}>{this.props.intl.formatMessage({ id: this.props.validationError.errorCode })}</label> : ''}
@@ -117,12 +154,18 @@ class Authentication extends Component {
 				<form onSubmit={this.submitSignUpHandler}>
                   <div className="row">
                     <div className="col-xl-12 col-md-12">
-                        <input type="text" style = {{width : '47%'}} placeholder={this.props.intl.formatMessage({ id: "firstName-placeholder" })} value={this.state.firstName} onChange={( event ) => this.inputChangedHandler(event, "firstName")}/>
+                        <input type="text" style = {{width : '47%'}} placeholder={this.props.intl.formatMessage({ id: "firstName-placeholder" })} value={this.state.firstName} onChange={( event ) => this.inputChangedHandler(event, "firstName")} required/>
 						<label value="" style = {{width : '6%'}}/>
-						<input type="text" style = {{width : '47%'}} placeholder={this.props.intl.formatMessage({ id: "lastName-placeholder" })} value={this.state.lastName} onChange={( event ) => this.inputChangedHandler(event, "lastName")}/>
+						<input type="text" style = {{width : '47%'}} placeholder={this.props.intl.formatMessage({ id: "lastName-placeholder" })} value={this.state.lastName} onChange={( event ) => this.inputChangedHandler(event, "lastName")} required/>
+
                     </div>
                     <div className="col-xl-12 col-md-12">
-                      <input type="email" placeholder={this.props.intl.formatMessage({ id: "email-placeholder" })} value={this.state.email} onChange={( event ) => this.inputChangedHandler(event, "email")}/>
+                      <input type="email" 
+					  placeholder={this.props.intl.formatMessage({ id: "email-placeholder" })} 
+					  value={this.state.email} 
+					  onChange={( event ) => this.inputChangedHandler(event, "email")}
+					  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+					  required />
                     </div>
                     
                     <div className="col-xl-12 col-md-12">
@@ -135,15 +178,16 @@ class Authentication extends Component {
 					  <select id="gender" style = {{width : '26%', marginTop : '5px'}} value={this.state.gender} onChange={( event ) => this.inputChangedHandler(event, "gender")}>
                         <option value="Male">{this.props.intl.formatMessage({ id: "Male" })}</option>
                         <option value="Female">{this.props.intl.formatMessage({ id: "Female" })}</option>
+						<option value="Other">{this.props.intl.formatMessage({ id: "Other" })}</option>
                       </select>
 					  <label value="" style = {{width : '5%'}}/>
 					  <input type="tel"style = {{width : '34%'}} id="phoneNumber" name="phoneNumber" value={this.state.phoneNumber} placeholder={this.props.intl.formatMessage({ id: "phoneNumber-placeholder" })} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={( event ) => this.inputChangedHandler(event, "phoneNumber")}/>
                     </div>
                     <div className="col-xl-12 col-md-12">
-                      <input type="password" placeholder={this.props.intl.formatMessage({ id: "pwd-placeholder" })} value={this.state.password} onChange={( event ) => this.inputChangedHandler(event, "password")}/>
+                      <input type="password" placeholder={this.props.intl.formatMessage({ id: "pwd-placeholder" })} value={this.state.password} onChange={( event ) => this.inputChangedHandler(event, "password")} required pattern=".{8,}"/>
                     </div>
                     <div className="col-xl-12 col-md-12">
-                      <input type="password" placeholder={this.props.intl.formatMessage({ id: "conf-pwd-placeholder" })} value={this.state.confirmPassword} onChange={( event ) => this.inputChangedHandler(event, "confirmPassword")}/>
+                      <input type="password" placeholder={this.props.intl.formatMessage({ id: "conf-pwd-placeholder" })} value={this.state.confirmPassword} onChange={( event ) => this.inputChangedHandler(event, "confirmPassword")} required pattern=".{8,}"/>
                     </div>
 					<div className="col-xl-11 col-md-11">
 							{this.props.validationError.hasLoginError ? <label style={{color: 'red',marginLeft : '5px'}}>{this.props.intl.formatMessage({ id: this.props.validationError.errorCode })}</label> : ''}
@@ -165,7 +209,12 @@ class Authentication extends Component {
 			<h4 style={{color:'white'}}>{this.props.intl.formatMessage({ id: "forgot-pwd-label" })}</h4>
 			<form onSubmit={this.submitForgotPwdRequest}>
 				<div className="col-xl-12 col-md-12">
-                      <input type="email" placeholder="Enter Email" value={this.state.email} onChange={( event ) => this.inputChangedHandler(event, "email")}/>
+                      <input type="email" 
+					  placeholder="Enter Email" 
+					  value={this.state.email} 
+					  onChange={( event ) => this.inputChangedHandler(event, "email")}
+					  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+					  required/>
                 </div>
 					<div className="col-xl-11 col-md-11">
 						{this.props.validationError.hasLoginError ? <label style={{ color: 'red', marginLeft: '5px' }}>{this.props.intl.formatMessage({ id: this.props.validationError.errorCode })}</label>
@@ -186,7 +235,10 @@ class Authentication extends Component {
 		return (
 			<Wrapper>
 				<div id="test-form" className="white-popup-block">
-					<div className="signUpMain-popupbox ">
+					<div className="signUpMain-popupbox slider_bg_new overlay2">
+					<button type="button" className="close" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
 						<div className="popup_inner">
 							<div className="row">
 								<div className="signUpMain-col">
@@ -202,7 +254,7 @@ class Authentication extends Component {
 												<Link
 													to=""
 													className="dont-hav-acc link-button"
-													onClick={this.props.onBackToLogin}
+													onClick={this.onBackToLogin}
 													style={{color:"orange"}}
 												>
 													{this.props.intl.formatMessage({ id: "back-to-login" })}
@@ -220,7 +272,7 @@ class Authentication extends Component {
 												<Link
 													to=""
 													className="dont-hav-acc link-button"
-													onClick={this.props.onSignUpLinkClick}
+													onClick={this.onSignUpLinkClick}
 													style={{color:"orange"}}
 												>
 													{this.props.intl.formatMessage({ id: "SignUp" })}
@@ -232,6 +284,7 @@ class Authentication extends Component {
 								</div>
 								<div className="popup_box ">
 									<div className="popup_inner">
+									
 										{!this.props.showSignUp && !this.props.showForgotPassword && this.renderSignInSection()}
 										{this.props.showSignUp && this.renderSignUpSection()}
 										{this.props.showForgotPassword && this.renderForgotPasswordSetion()}

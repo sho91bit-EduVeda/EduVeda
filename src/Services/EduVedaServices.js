@@ -13,19 +13,11 @@ class EduVedaServices {
         });
     }
 
-    async createUserRecordOnSignUp(uid, fullName , email, phoneNumber, roles, LoginMethod,photoURL,gender) {
-        firebase.database().ref('users/' + uid).set({
-            fullName,
-            email,
-            phoneNumber,
-            roles,
-            LoginMethod,
-            photoURL,
-            gender
-          }, (error) => {
+    async createUserRecordOnSignUp(uid, userData) {
+        firebase.database().ref('users/' + uid).set(userData, (error) => {
             if (error) {
               // The write failed...
-              console.log(error)
+              console.log("Create Error: "+error)
 
             } else {
                 console.log("Record Created");
@@ -33,15 +25,8 @@ class EduVedaServices {
         });
     }
 
-    async updateUserProfile(uid, fullName,email, phoneNumber,mobileNumber,address, gender) {
-      firebase.database().ref('users/' + uid).set({
-          fullName: fullName,
-          email: email,
-          phoneNumber : phoneNumber,
-          gender : gender,
-          mobileNumber: mobileNumber,
-          address: address
-        }, (error) => {
+    async updateUserProfile(uid, userData) {
+      firebase.database().ref('users/' + uid).set(userData, (error) => {
           if (error) {
             // The write failed...
             console.log(error)
@@ -75,7 +60,7 @@ class EduVedaServices {
 
     async getLoggedInUser(localId) {
         return firebase.database().ref('/users/' + localId).once('value').then((user) => {
-            return Promise.resolve(user.val());
+          return user.val() === null ? Promise.reject("User Not Found") : Promise.resolve(user.val())
         }).catch((error) => {
             console.log("Error: "+error);
         return Promise.reject(error);
@@ -88,7 +73,6 @@ class EduVedaServices {
             //var token = result.credential.accessToken;
             // The signed-in user info.
             var user = result.user;
-            console.log("Response : "+JSON.stringify(user));
             
             const userData = {
               userId: user.providerData[0].uid,
@@ -96,7 +80,7 @@ class EduVedaServices {
               email: user.email,
               roles: 'student',
               phoneNumber : user.phoneNumber,
-              photoUrl : user.photoURL
+              photoURL : user.photoURL
             };
             
             return Promise.resolve(userData);
@@ -105,33 +89,6 @@ class EduVedaServices {
             return Promise.reject(error);
           });
     }
-
-  // async eduvedaLogInWithFacebook() {
-  //   return await firebase.auth().signInWithPopup(facebookAuthProvider).then(function(result) {
-  //       /** @type {firebase.auth.OAuthCredential} */
-  //       //var credential = result.credential;
-
-  //       // The signed-in user info.
-  //       var user = result.user;
-
-  //       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-  //       //var accessToken = credential.accessToken;
-
-  //       const userData = {
-  //         userId: user.providerData[0].uid,
-  //         fullName: user.displayName,
-  //         email: user.email,
-  //         phoneNumber : user.phoneNumber,
-  //         roles: 'student'
-  //       };
-
-  //       return Promise.resolve(userData);
-
-  //       // ...
-  //     }).catch(function(error) {
-  //       return Promise.reject(error);
-  //     });
-  // }
 
   async eduvedaResetPassword(email) {
     return firebase.auth().sendPasswordResetEmail(email).then(response => {
@@ -148,6 +105,27 @@ class EduVedaServices {
     }).catch(error => {
       return Promise.reject(error);
     });
+}
+
+async getAllNotifications(){
+  return firebase.database().ref('/notification').once('value').then((notification) => {
+    return notification.val() === null ? Promise.reject("Notifications Not Found") : Promise.resolve(notification.val())
+  }).catch((error) => {
+      console.log("Error: "+error);
+  return Promise.reject(error);
+  });
+}
+
+async pushNotifications(notifications) {
+  firebase.database().ref('notification/').set(notifications, (error) => {
+    if (error) {
+      // The write failed...
+      console.log(error)
+
+    } else {
+        console.log("Record Updated");
+    }
+});
 }
 }
 export default new EduVedaServices();
