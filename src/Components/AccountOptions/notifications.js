@@ -9,16 +9,16 @@ class Notification extends Component {
         return (
             <Wrapper>
                 <div className="slider_area">
-                    <div className="single_slider d-flex align-items-center justify-content-center slider_bg_1">
-                        <div className="container" style={{ marginTop: '30px' }}>
+                   
+                    <div className="bradcam_area slider_bg_new overlay2">
+                        <h1 className="text-white">Notifications</h1>
+                    </div>
+                </div>
+                <div className="slider_area">
+                    <div className="single_slider d-flex align-items-center justify-content-center" style={{height:'auto'}}>
+                        <div className="container" style={{ backgroundColor:'white' }}>
                             <div className="main-body">
 
-                                <nav aria-label="breadcrumb" className="main-breadcrumb">
-                                    <ol className="breadcrumb">
-                                        <li className="breadcrumb-item"><a href="/">{this.props.intl.formatMessage({ id: "home" })}</a></li>
-                                        <li className="breadcrumb-item active" aria-current="page">{this.props.intl.formatMessage({ id: "notifications" })}</li>
-                                    </ol>
-                                </nav>
                                 {this.props.eduvedaNotifications ?
                                     this.props.eduvedaNotifications.map((notification) => 
                                         <div className="success" style={{paddingTop:'10px', paddingBottom:'10px', marginBottom: '10px'}}>

@@ -304,7 +304,8 @@ class Main extends Component {
           eduvedaSignUpHandler={this.signUpHandler}
           hasSuccessMsg={this.state.successMessageFlag}
           validationError={this.state.error}
-          onSignUpLinkClick={this.goToSignUp}/>
+          onSignUpLinkClick={this.goToSignUp}
+          onProviderLogin={this.providerLoginHandler}/>
         </Route>
         <Footer />
         <Modal show={this.state.showLogin} modalClosed={this.closeLoginHandler}>

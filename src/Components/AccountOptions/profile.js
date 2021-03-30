@@ -86,8 +86,8 @@ class Profile extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="single_slider d-flex align-items-center justify-content-center" style={{ backgroundColor: 'white' }}>
-                        <div className="container">
+                    <div className="single_slider d-flex align-items-center justify-content-center bg-white"  style={{height:'auto', paddingTop:'30px' }}>
+                        <div className="container bg-white">
                             <div className="main-body">
 
                                 <div className="row gutters-sm">
@@ -116,7 +116,7 @@ class Profile extends Component {
                                                     </div>
                                                     <div className="col-sm-9">
                                                         {this.state.updateProfileFlag ?
-                                                            <input id='fullName' type='text' style={{ padding: '0' }}
+                                                            <input id='fullName' type='text' className="form-control"
                                                                 value={this.state.fullName}
                                                                 onChange={(event) => this.inputChangedHandler(event, "fullName")} />
                                                             : this.props.loggedInUser.fullName}
@@ -129,7 +129,7 @@ class Profile extends Component {
                                                     </div>
                                                     <div className="col-sm-9 text-secondary">
                                                         {this.state.updateProfileFlag ?
-                                                            <select id="gender" style={{ border: 'none' }} value={this.state.gender} onChange={(event) => this.inputChangedHandler(event, "gender")}>
+                                                            <select id="gender" className="form-control" value={this.state.gender} onChange={(event) => this.inputChangedHandler(event, "gender")}>
                                                                 <option value="Male">{this.props.intl.formatMessage({ id: "Male" })}</option>
                                                                 <option value="Female">{this.props.intl.formatMessage({ id: "Female" })}</option>
                                                             </select>
@@ -154,7 +154,7 @@ class Profile extends Component {
                                                     </div>
                                                     <div className="col-sm-9 text-secondary">
                                                         {this.state.updateProfileFlag ?
-                                                            <input type="tel" style={{ width: '34%', padding: '0', border: 'none' }} id="phoneNumber" name="phoneNumber" value={this.state.phoneNumber} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={(event) => this.inputChangedHandler(event, "phoneNumber")} />
+                                                            <input type="tel" className="form-control" id="phoneNumber" name="phoneNumber" value={this.state.phoneNumber} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={(event) => this.inputChangedHandler(event, "phoneNumber")} />
                                                             : this.props.loggedInUser.phoneNumber}
                                                     </div>
                                                 </div>
@@ -165,7 +165,7 @@ class Profile extends Component {
                                                     </div>
                                                     <div className="col-sm-9 text-secondary">
                                                         {this.state.updateProfileFlag ?
-                                                            <input type="tel" style={{ width: '34%', padding: '0', border: 'none' }} id="mobileNumber" name="mobileNumber" value={this.state.mobileNumber} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={(event) => this.inputChangedHandler(event, "mobileNumber")} />
+                                                            <input type="tel" className="form-control" id="mobileNumber" name="mobileNumber" value={this.state.mobileNumber} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={(event) => this.inputChangedHandler(event, "mobileNumber")} />
                                                             : this.props.loggedInUser.mobileNumber}
 
                                                     </div>
@@ -177,7 +177,7 @@ class Profile extends Component {
                                                     </div>
                                                     <div className="col-sm-9 text-secondary">
                                                         {this.state.updateProfileFlag ?
-                                                            <input id='address' type='text' style={{ padding: '0' }}
+                                                            <input id='address' type='text' className="form-control"
                                                                 value={this.state.address}
                                                                 onChange={(event) => this.inputChangedHandler(event, "address")} />
                                                             : this.props.loggedInUser.address}
@@ -186,9 +186,11 @@ class Profile extends Component {
                                                 </div>
                                                 <hr />
                                                 <div className="row">
-                                                    <button className="btn btn-primary" style={{ width: '20%', float: 'left', marginLeft: '15%', backgroundColor: 'Orange' }} onClick={this.editProfile} disabled={this.state.updateProfileFlag}>{this.props.intl.formatMessage({ id: "editProfile" })}</button>
-                                                    <button className="btn btn-primary" style={{ width: '20%', marginLeft: '5%', backgroundColor: 'Green' }} onClick={this.onUpdateProfile} disabled={!this.state.updateProfileFlag}>{this.props.intl.formatMessage({ id: "submit" })}</button>
-                                                    <button className="btn btn-primary" style={{ width: '20%', marginLeft: '5%', backgroundColor: 'Red' }} onClick={this.cancelProfileEdit} disabled={!this.state.updateProfileFlag}>{this.props.intl.formatMessage({ id: "cancel" })}</button>
+                                                    {this.state.updateProfileFlag ? 
+                                                    <button type="button" className="btn btn-danger" style={{backgroundColor:'#c82333'}} onClick={this.cancelProfileEdit}>{this.props.intl.formatMessage({ id: "cancel" })}</button> 
+                                                    : <button type="button" className="btn btn-warning" style={{backgroundColor:'#e0a800'}} onClick={this.editProfile}>{this.props.intl.formatMessage({ id: "editProfile" })}</button>}
+                                                    <button type="button" className="btn btn-success" style={{backgroundColor:'#28a745'}} onClick={this.onUpdateProfile} disabled={!this.state.updateProfileFlag}>{this.props.intl.formatMessage({ id: "submit" })}</button>
+                                                    
                                                 </div>
                                             </div>
                                         </div>

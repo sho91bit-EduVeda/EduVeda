@@ -69,20 +69,34 @@ class Header extends Component {
                             </Link>
                           </li>
 
-
-                          <li><Link to="/">
-                            {this.props.intl.formatMessage({ id: "blog" })}
-                            <i className="ti-angle-down"></i></Link>
-                            <ul className="submenu">
-                              <li><Link to="blogs">
+                          {this.props.user ?
+                            <Wrapper>
+                              <li><Link to="/">
                                 {this.props.intl.formatMessage({ id: "blog" })}
-                              </Link></li>
-                              <li><Link to="single-blog">
-                                {this.props.intl.formatMessage({ id: "singleblog" })}
-                              </Link></li>
-                            </ul>
-                          </li>
-
+                                <i className="ti-angle-down"></i></Link>
+                                <ul className="submenu">
+                                  <li><Link to="blogs">
+                                    {this.props.intl.formatMessage({ id: "blog" })}
+                                  </Link></li>
+                                  <li><Link to="single-blog">
+                                    {this.props.intl.formatMessage({ id: "singleblog" })}
+                                  </Link></li>
+                                </ul>
+                              </li>
+                              <li><Link to="">{this.props.intl.formatMessage({ id: "Courses" })}<i className="ti-angle-down" style={{ paddingLeft: "5px" }}></i></Link>
+                                <ul className="submenu">
+                                  <li >
+                                    <Link to="#">{this.props.intl.formatMessage({ id: "Below 12th Std" })}<i className="ti-angle-right" /></Link>
+                                    <ul className="submenu" style={{ top: "0", left: "117%" }}>
+                                      <li><Link to="/syllabus">{this.props.intl.formatMessage({ id: "Syllabus" })}</Link></li>
+                                      <li><Link to="/mock-paper">{this.props.intl.formatMessage({ id: "Mock Paper" })}</Link></li>
+                                      <li><Link to="/books-publications">{this.props.intl.formatMessage({ id: "Books & Publications" })}</Link></li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </li>
+                            </Wrapper>
+                            : ''}
                           <li><Link to="/about-us" className={this.state.isAboutUsSelected ? "active" : ""} onClick={this.onAboutUsSelect}>
                             {this.props.intl.formatMessage({ id: "About" })}
                           </Link></li>
@@ -90,7 +104,7 @@ class Header extends Component {
                           <li><Link to="/contact-us" onClick={this.onContactUsSelect} className={this.state.isContactUsSelected ? "active" : ""}>
                             {this.props.intl.formatMessage({ id: "Contact" })}
                           </Link></li>
-                          <hr style={{margin:'0px 0px'}}/>
+                          <hr style={{ margin: '0px 0px' }} />
                           <li className="d-block d-lg-none">
                             <Link to="/profile">
                               {this.props.intl.formatMessage({ id: "profile" })}
