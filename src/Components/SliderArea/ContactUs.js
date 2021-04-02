@@ -106,7 +106,7 @@ class ContactUs extends Component {
               initialCenter={{ lat: 47.444, lng: -122.176 }}
               containerStyle={containerStyle}
             >
-              <Marker position={{ lat: 48.00, lng: -122.00 }} />
+              <Marker position={{ lat: 56.1304, lng: 106.3468 }} />
 
             </Map>
             </div>

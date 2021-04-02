@@ -185,7 +185,7 @@ class Profile extends Component {
                                                     </div>
                                                 </div>
                                                 <hr />
-                                                <div className="row">
+                                                <div className="container">
                                                     {this.state.updateProfileFlag ? 
                                                     <button type="button" className="btn btn-danger" style={{backgroundColor:'#c82333'}} onClick={this.cancelProfileEdit}>{this.props.intl.formatMessage({ id: "cancel" })}</button> 
                                                     : <button type="button" className="btn btn-warning" style={{backgroundColor:'#e0a800'}} onClick={this.editProfile}>{this.props.intl.formatMessage({ id: "editProfile" })}</button>}

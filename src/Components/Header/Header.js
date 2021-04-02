@@ -105,6 +105,12 @@ class Header extends Component {
                             {this.props.intl.formatMessage({ id: "Contact" })}
                           </Link></li>
                           <hr style={{ margin: '0px 0px' }} />
+                          <li className="d-block d-lg-none"><Link to="/notifications">
+                                      {this.props.intl.formatMessage({ id: "notifications" })}
+                                      {this.props.user.notifFlag ? <i className="material-icons" style={{ fontSize: '15px', paddingTop: '5px', marginLeft: '5px' }}>&#xe7f4;</i>
+                                        : <i className="material-icons" style={{ fontSize: '15px', marginLeft: '5px' }}>&#xe7f5;</i>}
+                                    </Link></li>
+
                           <li className="d-block d-lg-none">
                             <Link to="/profile">
                               {this.props.intl.formatMessage({ id: "profile" })}

@@ -97,6 +97,7 @@ class Main extends Component {
       EduVedaServices.getLoggedInUser(providerResponse.userId).then(user => {
         this.fetchNotificationsFromEduVeda();
         this.setState({ user, userUid: providerResponse.userId });
+        if(window.location.pathname === "/auth") { window.location.pathname = "/" }
       }).catch(error => {
         console.log("User not found");
         const userData = {
@@ -109,6 +110,7 @@ class Main extends Component {
         EduVedaServices.getLoggedInUser(providerResponse.userId).then(user => {
           this.fetchNotificationsFromEduVeda();
           this.setState({ user, userUid: providerResponse.userId });
+          if(window.location.pathname === "/auth") { window.location.pathname = "/" }
         });
       });
       this.closeLoginHandler();
